@@ -1,4 +1,6 @@
-package com.game.tiltiland;
+package scom.game.tiltiland;
+
+import com.game.tiltiland.R;
 
 import android.app.Activity;
 import android.os.Bundle;
