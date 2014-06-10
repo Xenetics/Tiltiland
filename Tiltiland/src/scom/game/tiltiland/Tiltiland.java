@@ -2,16 +2,13 @@ package scom.game.tiltiland;
 
 import com.game.tiltiland.R;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.badlogic.androidgames.framework.impl.AndroidGame;
+import com.badlogic.androidgames.framework.Screen;
 
-public class Tiltiland extends Activity {
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_tiltiland);
-    }
+public class Tiltiland extends AndroidGame 
+{
+	public Screen getStartScreen()
+	{
+		return new LoadingScreen(this);
+	}
 }

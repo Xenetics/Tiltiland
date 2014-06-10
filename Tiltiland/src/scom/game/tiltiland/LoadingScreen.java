@@ -21,6 +21,8 @@ public class LoadingScreen extends Screen
 		Assets.animals = g.newPixmap("animals.pnd", PixmapFormat.ARGB4444);
 		Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
 		
+		Settings.load(game.getFileIO()); // loads saved settings file
+		
 		game.setScreen(new MainMenuScreen(game));
 	}
 	
