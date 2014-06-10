@@ -18,7 +18,7 @@ public class LoadingScreen extends Screen
 		Assets.background = g.newPixmap("background.png", PixmapFormat.RGB565);
 		Assets.shroud = g.newPixmap("shroud.png", PixmapFormat.ARGB4444);
 		Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);
-		Assets.animals = g.newPixmap("animals.pnd", PixmapFormat.ARGB4444);
+		Assets.animals = g.newPixmap("animals.png", PixmapFormat.ARGB4444);
 		Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
 		
 		Settings.load(game.getFileIO()); // loads saved settings file

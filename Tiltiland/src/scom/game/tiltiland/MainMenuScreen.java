@@ -23,17 +23,43 @@ public class MainMenuScreen extends Screen
 		for(int i = 0; i < len; i++)
 		{
 			TouchEvent event = touchEvents.get(i);
+			if(event.type == TouchEvent.TOUCH_UP)
+			{
+				/*all if for buttons
+				if(inBounds(event, ))
+				{
+					
+				}
+				
+				if(inBounds(event, ))
+				{
+					
+				}
+				
+				if(inBounds(event, ))
+				{
+					
+				}
+				
+				if(inBounds(event, ))
+				{
+					
+				}
+				*/
+			}
 		}
 	}
 	
     public void present(float deltaTime)
     {
+    	Graphics g = game.getGraphics();
     	
+    	g.drawPixmap(Assets.background, 0, 0);
     }
 
     public void pause()
     {
-    	
+    	Settings.save(game.getFileIO());
     }
 
     public void resume()
@@ -44,5 +70,14 @@ public class MainMenuScreen extends Screen
     public void dispose()
     {
     	
+    }
+    
+    private boolean inBounds(TouchEvent event, int x, int y, int width, int height) 
+    {
+        if(event.x > x && event.x < x + width - 1 && 
+           event.y > y && event.y < y + height - 1) 
+            return true;
+        else
+            return false;
     }
 }
