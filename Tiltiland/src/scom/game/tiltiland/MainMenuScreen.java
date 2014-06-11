@@ -55,6 +55,13 @@ public class MainMenuScreen extends Screen
     	Graphics g = game.getGraphics();
     	
     	g.drawPixmap(Assets.background, 0, 0);
+    	g.drawPixmap(Assets.island, 133, 384);
+    	g.drawPixmap(Assets.foreWater, 0, 0);
+    	g.drawPixmap(Assets.shroud, 0, 0);
+    	g.drawPixmap(Assets.buttons, 256, 256, 0, 0, 256, 128);
+    	g.drawPixmap(Assets.buttons, 256, 448, 0, 128, 256, 128);
+    	g.drawPixmap(Assets.buttons, 256, 640, 0, 256, 256, 128);
+    	g.drawPixmap(Assets.buttons, 256, 832, 0, 384, 256, 128);
     }
 
     public void pause()
@@ -74,10 +81,13 @@ public class MainMenuScreen extends Screen
     
     private boolean inBounds(TouchEvent event, int x, int y, int width, int height) 
     {
-        if(event.x > x && event.x < x + width - 1 && 
-           event.y > y && event.y < y + height - 1) 
+        if(event.x > x && event.x < x + width - 1 && event.y > y && event.y < y + height - 1) 
+        {
             return true;
+        }
         else
+        {
             return false;
+        }
     }
 }

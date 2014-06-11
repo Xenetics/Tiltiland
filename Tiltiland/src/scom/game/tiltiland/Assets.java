@@ -7,6 +7,7 @@ public class Assets
 {
 	//Graphics
 	public static Pixmap background;
+	public static Pixmap foreWater;
 	public static Pixmap shroud;
 	public static Pixmap buttons;
 	

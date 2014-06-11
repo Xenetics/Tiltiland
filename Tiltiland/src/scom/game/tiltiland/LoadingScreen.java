@@ -15,7 +15,10 @@ public class LoadingScreen extends Screen
 	public void update(float deltaTime)
 	{
 		Graphics g = game.getGraphics();
+		
+		// loading all picture assets
 		Assets.background = g.newPixmap("background.png", PixmapFormat.RGB565);
+		Assets.foreWater = g.newPixmap("foreWater.png", PixmapFormat.ARGB4444);
 		Assets.shroud = g.newPixmap("shroud.png", PixmapFormat.ARGB4444);
 		Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);
 		Assets.animals = g.newPixmap("animals.png", PixmapFormat.ARGB4444);
@@ -23,7 +26,7 @@ public class LoadingScreen extends Screen
 		
 		Settings.load(game.getFileIO()); // loads saved settings file
 		
-		game.setScreen(new MainMenuScreen(game));
+		game.setScreen(new MainMenuScreen(game)); // creates and sets up main menu
 	}
 	
     public void present(float deltaTime)
