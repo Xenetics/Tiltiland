@@ -5,13 +5,30 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
+import android.graphics.Color;
+import android.graphics.Paint;
+import android.graphics.Canvas;
+import android.graphics.Typeface;
+import android.graphics.Rect;
+
 
 public class MainMenuScreen extends Screen 
 {
+	Paint paint;
+	Canvas canvas;
+	Rect bounds = new Rect();
+	
 	public MainMenuScreen(Game game)
 	{
 		super(game);
+		paint = new Paint();
 	}
+	
+	// Booleans for button presses
+	boolean playPush = false;
+	boolean scorePush = false;
+	boolean instructPush = false;
+	boolean optionPush = false;
 	
 	public void update(float deltaTime)
 	{
@@ -19,33 +36,76 @@ public class MainMenuScreen extends Screen
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
-		int len = touchEvents.size();
+		int len = touchEvents.size(); // length of touches array
+		for(int i = 0; i < len; i++)
+		{
+			TouchEvent event = touchEvents.get(i);
+			if(event.type == TouchEvent.TOUCH_DOWN)
+			{
+				//all if's for buttons
+				if(inBounds(event, 256, 256, 256, 128)) // play
+				{
+					playPush = true; // is button being pushed
+					if(Settings.soundEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(inBounds(event, 256, 448, 256, 128)) // high score
+				{
+					scorePush = true;
+					if(Settings.soundEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(inBounds(event, 256, 640, 256, 128)) // instructions
+				{
+					instructPush = true;
+					if(Settings.soundEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(inBounds(event, 256, 832, 256, 128)) // options
+				{
+					optionPush = true;
+					if(Settings.soundEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+			}
+		}
+		
 		for(int i = 0; i < len; i++)
 		{
 			TouchEvent event = touchEvents.get(i);
 			if(event.type == TouchEvent.TOUCH_UP)
 			{
-				/*all if for buttons
-				if(inBounds(event, ))
+				//all if's for buttons
+				if(inBounds(event, 256, 256, 256, 128)) // play
 				{
-					
+					playPush = false;
 				}
 				
-				if(inBounds(event, ))
+				if(inBounds(event, 256, 448, 256, 128)) // high score
 				{
-					
+					scorePush = false;
 				}
 				
-				if(inBounds(event, ))
+				if(inBounds(event, 256, 640, 256, 128)) // instructions
 				{
-					
+					instructPush = false;
 				}
 				
-				if(inBounds(event, ))
+				if(inBounds(event, 256, 832, 256, 128)) // options
 				{
-					
+					optionPush = false;
 				}
-				*/
 			}
 		}
 	}
@@ -54,14 +114,56 @@ public class MainMenuScreen extends Screen
     {
     	Graphics g = game.getGraphics();
     	
+    	paint.setTypeface(Assets.font);
+    	canvas.drawRGB(0, 0, 0);
+    	paint.setColor(Color.YELLOW);
+    	paint.setTextSize(128);
+    	paint.setTextAlign(Paint.Align.CENTER);
+    	canvas.drawText("Tiltiland", 64, 64, paint);
+    	
+    	
     	g.drawPixmap(Assets.background, 0, 0);
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     	g.drawPixmap(Assets.shroud, 0, 0);
-    	g.drawPixmap(Assets.buttons, 256, 256, 0, 0, 256, 128);
-    	g.drawPixmap(Assets.buttons, 256, 448, 0, 128, 256, 128);
-    	g.drawPixmap(Assets.buttons, 256, 640, 0, 256, 256, 128);
-    	g.drawPixmap(Assets.buttons, 256, 832, 0, 384, 256, 128);
+    	
+    	// Buttons
+    	if(playPush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 256, 0, 0, 256, 128); // playB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 256, 256, 0, 256, 128); // playBD
+    	}
+    	
+    	if(scorePush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 448, 0, 128, 256, 128); // HighscoreB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 448, 256, 128, 256, 128); // HighscoreBD
+    	}
+    	
+    	if(instructPush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 640, 0, 256, 256, 128); // InstructionsB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 640, 256, 256, 256, 128); // InstructionsBD
+    	}
+    	
+    	
+    	if(optionPush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 832, 0, 384, 256, 128); // OptionsB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 832, 256, 384, 256, 128); // OptionsBD
+    	}
     }
 
     public void pause()

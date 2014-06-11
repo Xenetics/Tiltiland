@@ -4,25 +4,36 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
+import android.graphics.Typeface;
+import android.content.Context;
 
 public class LoadingScreen extends Screen 
 {
 	public LoadingScreen(Game game)
 	{
 		super(game);
+		
 	}
+	
+	Context context;
 	
 	public void update(float deltaTime)
 	{
 		Graphics g = game.getGraphics();
 		
-		// loading all picture assets
+		// loading image assets
 		Assets.background = g.newPixmap("background.png", PixmapFormat.RGB565);
 		Assets.foreWater = g.newPixmap("foreWater.png", PixmapFormat.ARGB4444);
 		Assets.shroud = g.newPixmap("shroud.png", PixmapFormat.ARGB4444);
 		Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);
 		Assets.animals = g.newPixmap("animals.png", PixmapFormat.ARGB4444);
 		Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
+		
+		//load font
+		Assets.font = Typeface.createFromAsset(context.getAssets(), "font.ttf");
+		
+		// loading sound assets
+		Assets.push = game.getAudio().newSound("button.ogg");
 		
 		Settings.load(game.getFileIO()); // loads saved settings file
 		
