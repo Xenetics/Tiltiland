@@ -7,30 +7,11 @@ import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
 
-import android.R;
-import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Paint;
-import android.graphics.Canvas;
-import android.graphics.Typeface;
-import android.graphics.Rect;
-import android.widget.TextView;
-
-
 public class MainMenuScreen extends Screen 
 {
-	Context context;
-	Paint paint;
-	Canvas canvas;
-	Typeface font;
-	Rect bounds = new Rect();
-	
 	public MainMenuScreen(Game game)
 	{
 		super(game);
-		paint = new Paint();
-		canvas = new Canvas();
-		font = Typeface.createFromAsset(context.getAssets(), "font.ttf");
 	}
 	
 	// Booleans for button presses
@@ -55,7 +36,7 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 256, 256, 128)) // play
 				{
 					playPush = true; // is button being pushed
-					if(Settings.soundEnabled)
+					if(Settings.SFXEnabled)
 					{
 						Assets.push.play(1);
 					}
@@ -64,7 +45,7 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 448, 256, 128)) // high score
 				{
 					scorePush = true;
-					if(Settings.soundEnabled)
+					if(Settings.SFXEnabled)
 					{
 						Assets.push.play(1);
 					}
@@ -73,7 +54,7 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 640, 256, 128)) // instructions
 				{
 					instructPush = true;
-					if(Settings.soundEnabled)
+					if(Settings.SFXEnabled)
 					{
 						Assets.push.play(1);
 					}
@@ -82,7 +63,7 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 832, 256, 128)) // options
 				{
 					optionPush = true;
-					if(Settings.soundEnabled)
+					if(Settings.SFXEnabled)
 					{
 						Assets.push.play(1);
 					}
@@ -109,11 +90,13 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 640, 256, 128)) // instructions
 				{
 					instructPush = false;
+					game.setScreen(new InstructionsScreen(game));
 				}
 				
 				if(inBounds(event, 256, 832, 256, 128)) // options
 				{
 					optionPush = false;
+					game.setScreen(new OptionsScreen(game));
 				}
 			}
 		}
@@ -126,16 +109,8 @@ public class MainMenuScreen extends Screen
     	g.drawPixmap(Assets.background, 0, 0);
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.foreWater, 0, 0);
-    	g.drawPixmap(Assets.shroud, 0, 0);
+    	g.drawPixmap(Assets.title, 0, 0);
     	
-    	canvas.drawRGB(0, 0, 0);
-    	paint.setColor(Color.YELLOW);
-    	paint.setTypeface(font);
-    	paint.setTextSize(28);
-    	paint.setTextAlign(Paint.Align.CENTER);
-    	canvas.drawText("This is a test!", canvas.getWidth() / 2, 100,
-    	paint);
-
     	
     	// Buttons
     	if(playPush == false)

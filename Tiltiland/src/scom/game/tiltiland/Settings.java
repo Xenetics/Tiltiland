@@ -9,39 +9,45 @@ import com.badlogic.androidgames.framework.FileIO;
 
 public class Settings 
 {
-    public static boolean soundEnabled = true;
+    public static boolean MusicEnabled = true;
+    public static boolean SFXEnabled = true;
     public static int[] highscores = new int[] { 100, 80, 60, 40, 20 };
     
     public static void load(FileIO files) 
     {
         BufferedReader in = null;
         try 
-	{
-            in = new BufferedReader(new InputStreamReader(files.readFile(".tiltiland")));
-            soundEnabled = Boolean.parseBoolean(in.readLine());
-            
-            for (int i = 0; i < 5; i++) 
-            {
-                highscores[i] = Integer.parseInt(in.readLine());
-            }
-        } catch (IOException e) 
         {
-           
-        } catch (NumberFormatException e) 
+	        in = new BufferedReader(new InputStreamReader(files.readFile(".tiltiland")));
+	        MusicEnabled = Boolean.parseBoolean(in.readLine());
+	        SFXEnabled = Boolean.parseBoolean(in.readLine());
+        
+	        for (int i = 0; i < 5; i++) 
+	        {
+	            highscores[i] = Integer.parseInt(in.readLine());
+	        }
+     	} 
+        catch (IOException e) 
+    	{
+	           
+        } 
+        catch (NumberFormatException e) 
         {
-            
-        } finally 
+	            
+        } 
+        finally 
         {
             try 
             {
-                if (in != null)
-                {
-                    in.close();
-                }
-            } catch (IOException e) 
-            {
-            	
-            }
+	            if (in != null)
+	            {
+	                in.close();
+	            }
+            } 
+	        catch (IOException e) 
+	        {
+	        	
+	        }
         }
     }
     
@@ -51,22 +57,26 @@ public class Settings
         try 
         {
             out = new BufferedWriter(new OutputStreamWriter(files.writeFile("tiltiland")));
-            out.write(Boolean.toString(soundEnabled));
+            out.write(Boolean.toString(MusicEnabled));
+            out.write(Boolean.toString(SFXEnabled));
+            
             for (int i = 0; i < 5; i++) 
             {
                 out.write(Integer.toString(highscores[i]));
             }
-
-        } catch (IOException e) 
+        } 
+        catch (IOException e) 
         {
         	
-        } finally 
+        } 
+        finally 
         {
             try 
             {
                 if (out != null)
                     out.close();
-            } catch (IOException e) 
+            } 
+            catch (IOException e) 
             {
             	
             }

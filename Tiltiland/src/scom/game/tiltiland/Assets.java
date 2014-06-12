@@ -8,6 +8,7 @@ public class Assets
 {
 	//Graphics
 	public static Pixmap background;
+	public static Pixmap title;
 	public static Pixmap foreWater;
 	public static Pixmap shroud;
 	public static Pixmap buttons;
@@ -15,6 +16,9 @@ public class Assets
 	public static Pixmap animals;
 	
 	public static Pixmap island;
+	
+	// Instruction screen
+	public static Pixmap instruction;
 	
 	//Sound
 	public static Sound push;
