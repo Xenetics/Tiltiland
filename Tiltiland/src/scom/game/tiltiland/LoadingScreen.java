@@ -30,7 +30,7 @@ public class LoadingScreen extends Screen
 		Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
 		
 		//load font
-		Assets.font = Typeface.createFromAsset(context.getAssets(), "font.ttf");
+		//Assets.font = Typeface.createFromAsset(context.getAssets(), "font.ttf");
 		
 		// loading sound assets
 		Assets.push = game.getAudio().newSound("button.ogg");

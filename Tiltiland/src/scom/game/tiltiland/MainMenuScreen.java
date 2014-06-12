@@ -1,27 +1,36 @@
 package scom.game.tiltiland;
 
 import java.util.List;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
+
+import android.R;
+import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Canvas;
 import android.graphics.Typeface;
 import android.graphics.Rect;
+import android.widget.TextView;
 
 
 public class MainMenuScreen extends Screen 
 {
+	Context context;
 	Paint paint;
 	Canvas canvas;
+	Typeface font;
 	Rect bounds = new Rect();
 	
 	public MainMenuScreen(Game game)
 	{
 		super(game);
 		paint = new Paint();
+		canvas = new Canvas();
+		font = Typeface.createFromAsset(context.getAssets(), "font.ttf");
 	}
 	
 	// Booleans for button presses
@@ -114,18 +123,19 @@ public class MainMenuScreen extends Screen
     {
     	Graphics g = game.getGraphics();
     	
-    	paint.setTypeface(Assets.font);
-    	canvas.drawRGB(0, 0, 0);
-    	paint.setColor(Color.YELLOW);
-    	paint.setTextSize(128);
-    	paint.setTextAlign(Paint.Align.CENTER);
-    	canvas.drawText("Tiltiland", 64, 64, paint);
-    	
-    	
     	g.drawPixmap(Assets.background, 0, 0);
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     	g.drawPixmap(Assets.shroud, 0, 0);
+    	
+    	canvas.drawRGB(0, 0, 0);
+    	paint.setColor(Color.YELLOW);
+    	paint.setTypeface(font);
+    	paint.setTextSize(28);
+    	paint.setTextAlign(Paint.Align.CENTER);
+    	canvas.drawText("This is a test!", canvas.getWidth() / 2, 100,
+    	paint);
+
     	
     	// Buttons
     	if(playPush == false)
@@ -166,7 +176,7 @@ public class MainMenuScreen extends Screen
     	}
     }
 
-    public void pause()
+	public void pause()
     {
     	Settings.save(game.getFileIO());
     }
