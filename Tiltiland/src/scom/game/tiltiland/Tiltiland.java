@@ -1,7 +1,5 @@
 package scom.game.tiltiland;
 
-import com.game.tiltiland.R;
-
 import com.badlogic.androidgames.framework.impl.AndroidGame;
 import com.badlogic.androidgames.framework.Screen;
 

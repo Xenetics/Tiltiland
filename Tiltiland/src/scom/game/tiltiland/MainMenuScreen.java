@@ -22,7 +22,6 @@ public class MainMenuScreen extends Screen
 	
 	public void update(float deltaTime)
 	{
-		Graphics g = game.getGraphics();
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
@@ -80,11 +79,13 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 256, 256, 128)) // play
 				{
 					playPush = false;
+					game.setScreen(new GamePlayScreen(game));
 				}
 				
 				if(inBounds(event, 256, 448, 256, 128)) // high score
 				{
 					scorePush = false;
+					game.setScreen(new HighscoreScreen(game));
 				}
 				
 				if(inBounds(event, 256, 640, 256, 128)) // instructions
@@ -109,7 +110,7 @@ public class MainMenuScreen extends Screen
     	g.drawPixmap(Assets.background, 0, 0);
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.foreWater, 0, 0);
-    	g.drawPixmap(Assets.title, 0, 0);
+    	g.drawPixmap(Assets.title, 0, 0, 0, 0, 768, 400);
     	
     	
     	// Buttons

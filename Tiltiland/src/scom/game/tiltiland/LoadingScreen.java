@@ -4,7 +4,6 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
-import android.graphics.Typeface;
 import android.content.Context;
 
 public class LoadingScreen extends Screen 
