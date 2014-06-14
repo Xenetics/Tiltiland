@@ -7,7 +7,8 @@ import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
 
-public class OptionsScreen extends Screen {
+public class OptionsScreen extends Screen 
+{
 
 	public OptionsScreen(Game game) 
 	{
