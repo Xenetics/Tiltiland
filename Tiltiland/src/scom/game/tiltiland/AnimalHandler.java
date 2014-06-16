@@ -11,22 +11,22 @@ public class AnimalHandler
 		
 	}
 	
-	private String[] Types = { "elephant", "giraffe", "tiger", "zebra", "alligator", "gorilla", "penguin", "bear", "sheep", "kangaroo" }; // animal type
-	private int[][] Sprites = { {0,8,8}, {9,3,11}, {12,7,3}, {19,7,3}, {26,12,2}, {38,5,5}, {43,3,3}, {46,8,4}, {54,4,3}, {58,3,4}}; // sprite sheet XPOS,Width,Height
+	public String[] Types = { "elephant", "giraffe", "tiger", "zebra", "alligator", "gorilla", "penguin", "bear", "sheep", "kangaroo" }; // animal type
+	public int[][] Sprites = { {0,8,8}, {9,3,11}, {12,7,3}, {19,7,3}, {26,12,2}, {38,5,5}, {43,3,3}, {46,8,4}, {54,4,3}, {58,3,4}}; // sprite sheet XPOS,Width,Height
 	
-	private List<Animal> Pen = new ArrayList<Animal>();
+	public List<Animal> Pen = new ArrayList<Animal>();
 	//private Animal[] Pen; // holds all the animals in existence
 	
-	public void Birth(String type, int x, int y)
+	public void Birth(String type, int x, int y)//handles a request to give birth
 	{
-		int weight;
 		char gender;
 		int sprite;
+		int w;
+		int h;
 		for(int i = 0 ; i < Types.length ; ++i )
 		{
 			if(type == Types[i])
 			{
-				weight = Sprites[i][1] * Sprites[i][2];
 				double Random = Math.random();
 				if(Random > 0.52)
 				{
@@ -37,7 +37,10 @@ public class AnimalHandler
 					gender = 'f';
 				}
 				sprite = Sprites[i][0];
-				Pen.add(new Animal( type, weight, gender, sprite, x, y));
+				w = Sprites[i][1];
+				h = Sprites[i][2];
+				Pen.add(new Animal( type, gender, sprite, x, y, w, h));
+				break;
 			}
 		}
 	}

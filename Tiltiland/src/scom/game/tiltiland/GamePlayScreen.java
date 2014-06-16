@@ -9,13 +9,27 @@ import com.badlogic.androidgames.framework.Input.TouchEvent;
 
 public class GamePlayScreen extends Screen 
 {
+    enum GameState //state machine
+    {
+        Ready,
+        Running,
+        Paused,
+        GameOver
+    }
+    
+    GameState state = GameState.Ready;
+    
 	public GamePlayScreen(Game game)
 	{
 		super(game);
+		zoo = new AnimalHandler(); // creates animal handler
 	}
 	
 	// Booleans for button presses
 	boolean pausePush = false;
+	
+	// Objects game has
+	AnimalHandler zoo;
 	
 	public void update(float deltaTime)
 	{
@@ -23,15 +37,16 @@ public class GamePlayScreen extends Screen
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
-		int len = touchEvents.size(); // length of touches array
+		zoo.Birth("giraffe", 133, 384);
 		
+		int len = touchEvents.size(); // length of touches array
 		for(int i = 0; i < len; i++) // touch down loop
 		{
 			TouchEvent event = touchEvents.get(i);
 			if(event.type == TouchEvent.TOUCH_DOWN)
 			{
 				//all if's for buttons
-				if(inBounds(event, 256, 256, 256, 128)) // Pause
+				if(inBounds(event, 32, 864, 128, 128)) // Pause
 				{
 					pausePush = true; // is button being pushed
 					if(Settings.SFXEnabled)
@@ -48,7 +63,7 @@ public class GamePlayScreen extends Screen
 			if(event.type == TouchEvent.TOUCH_UP)
 			{
 				//all if's for buttons
-				if(inBounds(event, 256, 256, 256, 128)) // pause
+				if(inBounds(event, 32, 864, 128, 128)) // pause
 				{
 					pausePush = false;
 				}
@@ -64,14 +79,16 @@ public class GamePlayScreen extends Screen
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     	
+    	DrawAnimals(); // draws all animals
+    	
     	// Buttons
     	if(pausePush == false)
     	{
-    		g.drawPixmap(Assets.buttons, 256, 256, 0, 0, 256, 128); // pauseB
+    		g.drawPixmap(Assets.buttons, 32, 864, 0, 1024, 128, 128); // pauseB
     	}
     	else
     	{
-    		g.drawPixmap(Assets.buttons, 256, 256, 256, 0, 256, 128); // PauseBD
+    		g.drawPixmap(Assets.buttons, 32, 864, 128, 1024, 128, 128); // PauseBD
     	}
     }
 
@@ -88,6 +105,15 @@ public class GamePlayScreen extends Screen
     public void dispose()
     {
     	
+    }
+    
+    public void DrawAnimals() // draws each animal on the screen
+    {
+    	Graphics g = game.getGraphics();
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    	}
     }
     
     private boolean inBounds(TouchEvent event, int x, int y, int width, int height) 

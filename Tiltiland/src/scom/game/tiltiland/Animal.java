@@ -2,13 +2,15 @@ package scom.game.tiltiland;
 
 public class Animal 
 {
-	public Animal(String type, int weight, char gender, int spriteX, int motherX, int motherY)
+	public Animal(String type, char gender, int spriteX, int motherX, int motherY, int width, int height)
 	{
 		Type = type;
-		Weight = weight;
+		Weight = width * height;
 		Gender = gender;
 		Age = 0;
 		SpriteX = spriteX;
+		Width = width;
+		Height = height;
 		XPos = motherX;
 		YPos = motherY;
 	}
@@ -20,12 +22,20 @@ public class Animal
 	public String Type; // what kind of animal. eg. elephant, penguin, or bear
 	public int Weight; // how much animal weighs and also how much score its worth
 	public char Gender;
-	public int Age; // how old the animal is in seconds
+	
+	private int Age; // how old the animal is in seconds
 	
 	
-	private int SpriteX; // X POS on sprite sheet
+	public int SpriteX; // X POS on sprite sheet
+	public int Width; // sprite width
+	public int Height; // sprite height
 	
-	public void Animate()
+	public void Birthday()
+	{
+		Age += 1;
+	}
+	
+	public void Wander()
 	{
 		
 	}
