@@ -9,12 +9,10 @@ import com.badlogic.androidgames.framework.Input.TouchEvent;
 
 public class GamePlayScreen extends Screen 
 {
+	Graphics g = game.getGraphics();
     enum GameState //state machine
     {
-        Ready,
-        Running,
-        Paused,
-        GameOver
+        Ready, Running, Paused, GameOver
     }
     
     GameState state = GameState.Ready;
@@ -33,12 +31,37 @@ public class GamePlayScreen extends Screen
 	
 	public void update(float deltaTime)
 	{
-		Graphics g = game.getGraphics();
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
-		zoo.Birth("giraffe", 133, 384);
-		
+        if(state == GameState.Ready)
+        {
+            UpdateReady(touchEvents);
+        }
+        if(state == GameState.Running)
+        {
+            UpdateRunning(touchEvents, deltaTime);
+        }
+        if(state == GameState.Paused)
+        {
+            UpdatePaused(touchEvents);
+        }
+        if(state == GameState.GameOver)
+        {
+            UpdateGameOver(touchEvents);  
+        }
+	}
+	
+	private void UpdateReady(List<TouchEvent> touchEvents)
+	{
+		if(touchEvents.size() >0)
+		{
+			state = GameState.Running;
+		}
+	}
+	
+	private void UpdateRunning(List<TouchEvent> touchEvents, float deltaTime)
+	{
 		int len = touchEvents.size(); // length of touches array
 		for(int i = 0; i < len; i++) // touch down loop
 		{
@@ -69,26 +92,41 @@ public class GamePlayScreen extends Screen
 				}
 			}
 		}
+		
+		MoveAnimals(); // updates animal movement
+	}
+	
+	private void UpdatePaused(List<TouchEvent> touchEvents)
+	{
+		int len = touchEvents.size(); // length of touches array
+	}
+	
+	private void UpdateGameOver(List<TouchEvent> touchEvents)
+	{
+		int len = touchEvents.size(); // length of touches array
 	}
 	
     public void present(float deltaTime)
     {
-    	Graphics g = game.getGraphics();
-    	
-    	g.drawPixmap(Assets.background, 0, 0);
-    	g.drawPixmap(Assets.island, 133, 384);
-    	g.drawPixmap(Assets.foreWater, 0, 0);
+    	DrawWorld(); // draws background and world
     	
     	DrawAnimals(); // draws all animals
     	
-    	// Buttons
-    	if(pausePush == false)
+    	if(state == GameState.Ready)
     	{
-    		g.drawPixmap(Assets.buttons, 32, 864, 0, 1024, 128, 128); // pauseB
+    		DrawReadyUI();
     	}
-    	else
+    	if(state == GameState.Running)
     	{
-    		g.drawPixmap(Assets.buttons, 32, 864, 128, 1024, 128, 128); // PauseBD
+    		DrawGameUI();
+    	}
+    	if(state == GameState.Paused)
+    	{
+    		DrawPausedUI();
+    	}
+    	if(state == GameState.GameOver)
+    	{
+    		DrawGameOverUI();
     	}
     }
 
@@ -107,12 +145,54 @@ public class GamePlayScreen extends Screen
     	
     }
     
-    public void DrawAnimals() // draws each animal on the screen
+    private void DrawWorld()
     {
-    	Graphics g = game.getGraphics();
+    	g.drawPixmap(Assets.background, 0, 0);
+    	g.drawPixmap(Assets.island, 133, 384);
+    	g.drawPixmap(Assets.foreWater, 0, 0);
+    }
+    
+    private void DrawReadyUI()
+    {
+    	
+    }
+    
+    private void DrawGameUI()
+    {
+    	// Buttons
+    	if(pausePush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 32, 864, 0, 1024, 128, 128); // pauseB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 32, 864, 128, 1024, 128, 128); // PauseBD
+    	}
+    }
+    
+    private void DrawPausedUI()
+    {
+    	
+    }
+    
+    private void DrawGameOverUI()
+    {
+    	
+    }
+    
+    private void DrawAnimals() // draws each animal on the screen
+    {
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
     		g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    	}
+    }
+    
+    private void MoveAnimals()
+    {
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		zoo.Pen.get(i).Wander();
     	}
     }
     
