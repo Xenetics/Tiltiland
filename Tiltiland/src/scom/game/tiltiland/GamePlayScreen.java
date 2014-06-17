@@ -2,6 +2,8 @@ package scom.game.tiltiland;
 
 import java.util.List;
 
+import scom.game.tiltiland.AnimalHandler.creatures;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
@@ -184,7 +186,82 @@ public class GamePlayScreen extends Screen
     {
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		if(zoo.Pen.get(i).Type == creatures.elephant)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.snake)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.tiger)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.zebra)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.giraffe)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.bear)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.gorilla)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.penguin)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.sheep)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(zoo.Pen.get(i).Type == creatures.kangaroo)
+    		{
+    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+    		}
     	}
     }
     

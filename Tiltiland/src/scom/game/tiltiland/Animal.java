@@ -42,14 +42,26 @@ public class Animal
 	public int Width; // sprite width
 	public int Height; // sprite height
 	
-	public void Birthday()
+	public void Birthday() // deals with aging
 	{
 		Age += 1;
 	}
 	
+	boolean InHeat; // is animal ready to mate
+	Animal mate; // save mate that was chosen
+	
+	public void Breed(AnimalHandler zoo) // decides to breed
+	{
+		if (Age / 10 == 0 && InHeat == true) // every 10 seconds will choose mate if in heat
+		{
+			InHeat = false;
+			mate = zoo.ChooseMate(this);
+		}
+	}
+	
 	private boolean direction;
 	
-	public void Wander()
+	public void Wander() // makes animals walk back and forth
 	{
 		if (XPos <= 133 || XPos + Width >= 635 ) // change direction when reach edge
 		{
