@@ -67,9 +67,9 @@ public class AnimalHandler
 		return temp; // placeholder
 	}
 	
-	public int Locate() // return xPOS of chosen mate
+	public int LocateMate(Animal mate) // return xPOS of chosen mate
 	{
-		return 0; // placeholder
+		return mate.XPos; // placeholder
 	}
 	
 	private char Gender;
@@ -80,7 +80,7 @@ public class AnimalHandler
 		Random generator = new Random();
 		for(int i = 0 ; i < 10 ; ++i)
 		{
-			for(int j = 0 ; j < Types.length ; ++j)
+			for(int j = 0 ; j < 3 ; ++j)
 			{
 				int X = generator.nextInt(621 - 133) + 133;
 				Birth( Types[i], X, Sprites[i][3], Gender);

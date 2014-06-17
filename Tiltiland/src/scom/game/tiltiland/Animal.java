@@ -61,9 +61,20 @@ public class Animal
 	
 	private boolean direction;
 	
-	public void Wander() // makes animals walk back and forth
+	public void Move() // makes animals walk back and forth
 	{
-		if (XPos <= 133 || XPos + Width >= 635 ) // change direction when reach edge
+		if(InHeat == true)
+		{
+			if(XPos < mate.XPos)
+			{
+				direction = true;
+			}
+			else
+			{
+				direction = false;
+			}
+		}
+		else if (XPos <= 133 || XPos + Width >= 635 ) // change direction when reach edge
 		{
 			direction = !direction;
 		}
@@ -76,5 +87,10 @@ public class Animal
 		{
 			XPos -= 1;
 		}
+	}
+	
+	public void Reproduce() // when reaches make will call birth and all that
+	{
+		
 	}
 }

@@ -269,7 +269,7 @@ public class GamePlayScreen extends Screen
     {
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		zoo.Pen.get(i).Wander();
+    		zoo.Pen.get(i).Move();
     	}
     }
     
