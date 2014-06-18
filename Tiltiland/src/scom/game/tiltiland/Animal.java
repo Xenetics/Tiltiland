@@ -1,5 +1,6 @@
 package scom.game.tiltiland;
 
+import android.util.Log;
 import scom.game.tiltiland.AnimalHandler.creatures;
 
 public class Animal 
@@ -25,6 +26,7 @@ public class Animal
 		{
 			direction = false;
 		}
+		fertile = 0;
 	}
 	
 	public int XPos; // animals POS in x
@@ -42,20 +44,36 @@ public class Animal
 	public int Width; // sprite width
 	public int Height; // sprite height
 	
-	public void Birthday() // deals with aging
+	private int fertile; // ==========================================remember to set to 0 when give birth
+	private boolean InHeat; // is animal ready to mate =============== remember to set false when give birth
+	private boolean bred; // ================================== remember to set to true when gave birth
+	
+	public void Birthday() // ages animal
 	{
 		Age += 1;
+		
+		if(fertile == 10)
+		{
+			InHeat = true;
+			bred = false;
+		}
+		if(!InHeat)
+		{
+			fertile += 1;
+		}
 	}
 	
-	boolean InHeat; // is animal ready to mate
 	Animal mate; // save mate that was chosen
 	
 	public void Breed(AnimalHandler zoo) // decides to breed
 	{
-		if (Age / 10 == 0 && InHeat == true) // every 10 seconds will choose mate if in heat
+		if (InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
+		{
+			mate = zoo.ChooseMate(this);
+		}
+		else
 		{
 			InHeat = false;
-			mate = zoo.ChooseMate(this);
 		}
 	}
 	
@@ -63,7 +81,7 @@ public class Animal
 	
 	public void Move() // makes animals walk back and forth
 	{
-		if(InHeat == true)
+		if(InHeat == true && bred == false)
 		{
 			if(XPos < mate.XPos)
 			{

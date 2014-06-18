@@ -29,7 +29,9 @@ public class GamePlayScreen extends Screen
 	boolean pausePush = false;
 	
 	// Objects game has
-	AnimalHandler zoo;
+	AnimalHandler zoo; // Keeps track of animals
+	Time timer;
+	
 	
 	public void update(float deltaTime)
 	{
@@ -59,6 +61,7 @@ public class GamePlayScreen extends Screen
 		if(touchEvents.size() >0)
 		{
 			state = GameState.Running;
+			timer = new Time(zoo); // creates new timer object
 		}
 	}
 	

@@ -89,6 +89,18 @@ public class AnimalHandler
 		}
 	}
 	
+	public void Birthdays()
+	{
+		for(int i = 0 ; i < Pen.size(); ++i)
+		{
+			Pen.get(i).Birthday();
+		}
+		for(int i = 0 ; i < Pen.size(); ++i)
+		{
+			Pen.get(i).Breed(this);
+		}
+	}
+	
 	public void Birth(creatures type, int x, int y, char Gender)//Overloaded birth used for genesis
 	{
 		char gender;
