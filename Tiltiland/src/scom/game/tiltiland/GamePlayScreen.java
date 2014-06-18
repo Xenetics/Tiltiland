@@ -31,6 +31,7 @@ public class GamePlayScreen extends Screen
 	// Objects game has
 	AnimalHandler zoo; // Keeps track of animals
 	Time timer;
+	int Score;
 	
 	
 	public void update(float deltaTime)
@@ -62,6 +63,7 @@ public class GamePlayScreen extends Screen
 		{
 			state = GameState.Running;
 			timer = new Time(zoo); // creates new timer object
+			Score = 0;
 		}
 	}
 	
@@ -272,7 +274,7 @@ public class GamePlayScreen extends Screen
     {
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		zoo.Pen.get(i).Move();
+    		zoo.Pen.get(i).Move(zoo);
     	}
     }
     

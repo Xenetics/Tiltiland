@@ -5,11 +5,12 @@ import scom.game.tiltiland.AnimalHandler.creatures;
 
 public class Animal 
 {
-	public Animal(creatures type, char gender, int spriteX, int motherX, int motherY, int width, int height)
+	public Animal(creatures type, char gender, int spriteX, int motherX, int motherY, int width, int height, int id)
 	{
 		Type = type;
 		Weight = width * height;
 		Gender = gender;
+		ID = id;
 		Age = 0;
 		SpriteX = spriteX;
 		Width = width;
@@ -27,6 +28,7 @@ public class Animal
 			direction = false;
 		}
 		fertile = 0;
+		chosen = false;
 	}
 	
 	public int XPos; // animals POS in x
@@ -36,8 +38,9 @@ public class Animal
 	public creatures Type; // what kind of animal. eg. elephant, penguin, or bear
 	public int Weight; // how much animal weighs and also how much score its worth
 	public char Gender;
+	public int ID;
 	
-	private int Age; // how old the animal is in seconds
+	public int Age; // how old the animal is in seconds
 	
 	
 	public int SpriteX; // X POS on sprite sheet
@@ -63,13 +66,27 @@ public class Animal
 		}
 	}
 	
-	Animal mate; // save mate that was chosen
+	int mateID; // save mate that was chosen
+	boolean chosen;
+	private int GetMatePos(AnimalHandler zoo) // returns mates pos
+	{
+		int POS = 0;
+		for( int i = 0 ; i < zoo.Pen.size() ; ++i )
+		{
+			if(mateID == zoo.Pen.get(i).ID)
+			{
+				POS = zoo.Pen.get(i).XPos;
+			}
+		}
+		return POS;
+	}
 	
 	public void Breed(AnimalHandler zoo) // decides to breed
 	{
-		if (InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
+		if (chosen == false && InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
 		{
-			mate = zoo.ChooseMate(this);
+			chosen = true;
+			mateID = zoo.ChooseMate(this);
 		}
 		else
 		{
@@ -77,13 +94,24 @@ public class Animal
 		}
 	}
 	
-	private boolean direction;
+	private boolean direction; // what direction they are traveling. true = right, false = left
 	
-	public void Move() // makes animals walk back and forth
+	
+	
+	public void Move(AnimalHandler zoo) // makes animals walk back and forth
 	{
-		if(InHeat == true && bred == false)
+		if(chosen == true && XPos == GetMatePos(zoo)) // birth when at mate
 		{
-			if(XPos < mate.XPos)
+			fertile = 0;
+			InHeat = false;
+			bred = true;
+			chosen = false;
+			zoo.Birth(Type, XPos, YPos);
+		}
+		
+		if(InHeat == true && bred == false) // move to mate
+		{
+			if(XPos < GetMatePos(zoo))
 			{
 				direction = true;
 			}
@@ -92,7 +120,8 @@ public class Animal
 				direction = false;
 			}
 		}
-		else if (XPos <= 133 || XPos + Width >= 635 ) // change direction when reach edge
+		
+		if(XPos <= 133 || XPos + Width >= 635 ) // change direction when reach edge
 		{
 			direction = !direction;
 		}

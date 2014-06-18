@@ -6,12 +6,22 @@ import java.util.List;
 import java.util.Random;
 import java.util.Arrays;
 
+import android.util.Log;
+
 public class AnimalHandler 
 {
 	public AnimalHandler()
 	{
 		Genesis();
+		UniqueID = 0;
 	}
+	int UniqueID;
+	
+	public int GiveUniqueID()
+	{
+		return UniqueID++;
+	}
+	
 	enum creatures
 	{
 		elephant, giraffe, tiger, zebra, snake, gorilla, penguin, bear, sheep, kangaroo
@@ -29,6 +39,7 @@ public class AnimalHandler
 		int sprite;
 		int w;
 		int h;
+		int id;
 		for(int i = 0 ; i < Types.length ; ++i )
 		{
 			if(type == Types[i])
@@ -45,31 +56,33 @@ public class AnimalHandler
 				sprite = Sprites[i][0];
 				w = Sprites[i][1];
 				h = Sprites[i][2];
-				Pen.add(new Animal( type, gender, sprite, x, y, w, h));
+				id = GiveUniqueID();
+				Pen.add(new Animal( type, gender, sprite, x, y, w, h, id));
 				break;
 			}
 		}
 	}
 		
-	public Animal ChooseMate(Animal mate) // returns best possible mate
+	public int ChooseMate(Animal mate) // returns best possible mate
 	{
 		Animal temp = Pen.get(0);
+		int id = 0;
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
 			if(Pen.get(i).Type == mate.Type)
 			{
-				if(Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384))
+				if(Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384) && Pen.get(i).Gender == 'm')
 				{
-					temp = Pen.get(i);
+					id = Pen.get(i).ID;
 				}
 			}
 		}
-		return temp; // placeholder
+		return id; 
 	}
 	
 	public int LocateMate(Animal mate) // return xPOS of chosen mate
 	{
-		return mate.XPos; // placeholder
+		return mate.XPos; 
 	}
 	
 	private char Gender;
@@ -89,16 +102,31 @@ public class AnimalHandler
 		}
 	}
 	
-	public void Birthdays()
+	private void Slaughter()
+	{
+		for(int i = 0; i < Pen.size() ; ++i)
+		{
+			if(Pen.get(i).Age >= 60)
+			{
+				Pen.remove(i);
+				Log.v("death", "death");
+			}
+		}
+	}
+	
+	public void Birthdays() // ages and make animal breed in needed
 	{
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
 			Pen.get(i).Birthday();
 		}
+		
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
 			Pen.get(i).Breed(this);
 		}
+		
+		Slaughter();
 	}
 	
 	public void Birth(creatures type, int x, int y, char Gender)//Overloaded birth used for genesis
@@ -107,6 +135,7 @@ public class AnimalHandler
 		int sprite;
 		int w;
 		int h;
+		int id;
 		for(int i = 0 ; i < Types.length ; ++i )
 		{
 			if(type == Types[i])
@@ -123,7 +152,8 @@ public class AnimalHandler
 				sprite = Sprites[i][0];
 				w = Sprites[i][1];
 				h = Sprites[i][2];
-				Pen.add(new Animal( type, gender, sprite, x, y, w, h));
+				id = GiveUniqueID();
+				Pen.add(new Animal( type, gender, sprite, x, y, w, h, id));
 				break;
 			}
 		}
