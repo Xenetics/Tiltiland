@@ -22,14 +22,15 @@ public class GamePlayScreen extends Screen
 	public GamePlayScreen(Game game)
 	{
 		super(game);
-		zoo = new AnimalHandler(); // creates animal handler
+		island = new Island(133, 384);
 	}
 	
 	// Booleans for button presses
 	boolean pausePush = false;
 	
 	// Objects game has
-	AnimalHandler zoo; // Keeps track of animals
+	Island island; 
+	AnimalHandler zoo = island.zoo; // Keeps track of animals within the island
 	Time timer;
 	int Score;
 	
@@ -155,7 +156,7 @@ public class GamePlayScreen extends Screen
     private void DrawWorld()
     {
     	g.drawPixmap(Assets.background, 0, 0);
-    	g.drawPixmap(Assets.island, 133, 384);
+    	g.drawPixmap(Assets.island, island.XPos, island.YPos);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     }
     

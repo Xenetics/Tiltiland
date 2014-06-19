@@ -24,6 +24,6 @@ public class Assets
 	public static Sound push;
 	
 	// Font
-	public static Typeface font;
+	public static Pixmap font;
 	
 }

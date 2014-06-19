@@ -106,10 +106,9 @@ public class AnimalHandler
 	{
 		for(int i = 0; i < Pen.size() ; ++i)
 		{
-			if(Pen.get(i).Age >= 60)
+			if(Pen.get(i).Age >= 100)
 			{
 				Pen.remove(i);
-				Log.v("death", "death");
 			}
 		}
 	}

@@ -33,7 +33,7 @@ public class LoadingScreen extends Screen
 		Assets.push = game.getAudio().newSound("button.ogg");
 		
 		//load font
-		//Assets.font = Typeface.createFromAsset(context.getAssets(), "font.ttf");
+		Assets.font = g.newPixmap("Font.png", PixmapFormat.ARGB4444);
 		
 		Settings.load(game.getFileIO()); // loads saved settings file
 		
