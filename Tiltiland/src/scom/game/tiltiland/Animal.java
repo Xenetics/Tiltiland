@@ -1,6 +1,5 @@
 package scom.game.tiltiland;
 
-import android.util.Log;
 import scom.game.tiltiland.AnimalHandler.creatures;
 
 public class Animal 
@@ -47,9 +46,9 @@ public class Animal
 	public int Width; // sprite width
 	public int Height; // sprite height
 	
-	private int fertile; // ==========================================remember to set to 0 when give birth
-	private boolean InHeat; // is animal ready to mate =============== remember to set false when give birth
-	private boolean bred; // ================================== remember to set to true when gave birth
+	private int fertile; 
+	private boolean InHeat;
+	private boolean bred; 
 	
 	public void Birthday() // ages animal
 	{
@@ -121,23 +120,32 @@ public class Animal
 			}
 		}
 		
-		if(XPos <= 133 || XPos + Width >= 635 ) // change direction when reach edge
+		if(XPos <= 133 || XPos + Width - 1 >= 635 ) // change direction when reach edge
 		{
 			direction = !direction;
 		}
 		
 		if(direction == true) // move based on direction
 		{
-			XPos += 1;
+			if(InHeat == true && bred == false)
+			{
+				XPos += 2;
+			}
+			else
+			{
+				XPos += 1;
+			}
 		}
 		else
 		{
-			XPos -= 1;
+			if(InHeat == true && bred == false)
+			{
+				XPos -= 2;
+			}
+			else
+			{
+				XPos -= 1;
+			}
 		}
-	}
-	
-	public void Reproduce() // when reaches make will call birth and all that
-	{
-		
 	}
 }

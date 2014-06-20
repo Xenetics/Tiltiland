@@ -23,6 +23,8 @@ public class GamePlayScreen extends Screen
 	{
 		super(game);
 		island = new Island(133, 384);
+		zoo = island.zoo;
+		zoo.Score = 0;
 	}
 	
 	// Booleans for button presses
@@ -30,10 +32,10 @@ public class GamePlayScreen extends Screen
 	
 	// Objects game has
 	Island island; 
-	AnimalHandler zoo = island.zoo; // Keeps track of animals within the island
+	AnimalHandler zoo; // Keeps track of animals within the island
+	Font points; // displays points o screen
 	Time timer;
-	int Score;
-	
+	Font Timer;
 	
 	public void update(float deltaTime)
 	{
@@ -64,7 +66,6 @@ public class GamePlayScreen extends Screen
 		{
 			state = GameState.Running;
 			timer = new Time(zoo); // creates new timer object
-			Score = 0;
 		}
 	}
 	
@@ -96,6 +97,7 @@ public class GamePlayScreen extends Screen
 				//all if's for buttons
 				if(inBounds(event, 32, 864, 128, 128)) // pause
 				{
+					state = GameState.Paused;
 					pausePush = false;
 				}
 			}
@@ -166,7 +168,10 @@ public class GamePlayScreen extends Screen
     }
     
     private void DrawGameUI()
-    {
+    {    	
+    	points = new Font(game, zoo.Score, 32, 32);
+    	Timer = new Font(game, timer.TheTime, 544, 32);
+    	
     	// Buttons
     	if(pausePush == false)
     	{

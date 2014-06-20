@@ -4,9 +4,6 @@ package scom.game.tiltiland;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import java.util.Arrays;
-
-import android.util.Log;
 
 public class AnimalHandler 
 {
@@ -58,6 +55,7 @@ public class AnimalHandler
 				h = Sprites[i][2];
 				id = GiveUniqueID();
 				Pen.add(new Animal( type, gender, sprite, x, y, w, h, id));
+				Score = Score + (w * h);
 				break;
 			}
 		}
@@ -102,12 +100,15 @@ public class AnimalHandler
 		}
 	}
 	
+	public int Score;
+	
 	private void Slaughter()
 	{
 		for(int i = 0; i < Pen.size() ; ++i)
 		{
 			if(Pen.get(i).Age >= 100)
 			{
+				Score = Score + Pen.get(i).Weight;
 				Pen.remove(i);
 			}
 		}
