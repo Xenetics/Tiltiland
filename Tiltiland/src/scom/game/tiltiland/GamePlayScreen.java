@@ -29,6 +29,9 @@ public class GamePlayScreen extends Screen
 	
 	// Booleans for button presses
 	boolean pausePush = false;
+	boolean resumePush = false;
+	boolean quitPush = false;
+	boolean replayPush = false;
 	
 	// Objects game has
 	Island island; 
@@ -86,6 +89,42 @@ public class GamePlayScreen extends Screen
 						Assets.push.play(1);
 					}
 				}
+				
+				if(state == GameState.Paused && inBounds(event, 256, 320, 256, 128)) // Resume
+				{
+					resumePush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(state == GameState.Paused && inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					quitPush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(state == GameState.GameOver && inBounds(event, 256, 320, 256, 128)) // Replay
+				{
+					replayPush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(state == GameState.GameOver && inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					quitPush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
 			}
 		}
 		
@@ -100,6 +139,30 @@ public class GamePlayScreen extends Screen
 					state = GameState.Paused;
 					pausePush = false;
 				}
+				
+				if(state == GameState.Paused && inBounds(event, 256, 320, 256, 128)) // Resume
+				{
+					state = GameState.Running;
+					resumePush = false;
+				}
+				
+				if(state == GameState.Paused && inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					game.setScreen(new MainMenuScreen(game));
+					quitPush = false;
+				}
+				
+				if(state == GameState.GameOver && inBounds(event, 256, 320, 256, 128)) // Replay
+				{
+					
+					replayPush = false;
+				}
+				
+				if(state == GameState.GameOver && inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					game.setScreen(new MainMenuScreen(game));
+					quitPush = false;
+				}
 			}
 		}
 		
@@ -109,11 +172,101 @@ public class GamePlayScreen extends Screen
 	private void UpdatePaused(List<TouchEvent> touchEvents)
 	{
 		int len = touchEvents.size(); // length of touches array
+		for(int i = 0; i < len; i++) // touch down loop
+		{
+			TouchEvent event = touchEvents.get(i);
+			if(event.type == TouchEvent.TOUCH_DOWN)
+			{
+				//all if's for buttons
+				if(inBounds(event, 256, 320, 256, 128)) // Resume
+				{
+					resumePush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					quitPush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < len; i++) // touch up loop
+		{
+			TouchEvent event = touchEvents.get(i);
+			if(event.type == TouchEvent.TOUCH_UP)
+			{
+				//all if's for buttons
+				if(inBounds(event, 256, 320, 256, 128)) // Resume
+				{
+					state = GameState.Running;
+					resumePush = false;
+				}
+				
+				if(inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					game.setScreen(new MainMenuScreen(game));
+					quitPush = false;
+				}
+			}
+		}
 	}
 	
 	private void UpdateGameOver(List<TouchEvent> touchEvents)
 	{
 		int len = touchEvents.size(); // length of touches array
+		for(int i = 0; i < len; i++) // touch down loop
+		{
+			TouchEvent event = touchEvents.get(i);
+			if(event.type == TouchEvent.TOUCH_DOWN)
+			{
+				//all if's for buttons
+				if(inBounds(event, 256, 320, 256, 128)) // Replay
+				{
+					replayPush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+				
+				if(inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					quitPush = true; // is button being pushed
+					if(Settings.SFXEnabled)
+					{
+						Assets.push.play(1);
+					}
+				}
+			}
+		}
+		
+		for(int i = 0; i < len; i++) // touch up loop
+		{
+			TouchEvent event = touchEvents.get(i);
+			if(event.type == TouchEvent.TOUCH_UP)
+			{
+				//all if's for buttons
+				if(inBounds(event, 256, 320, 256, 128)) // Replay
+				{
+					
+					replayPush = false;
+				}
+				
+				if(inBounds(event, 256, 640, 256, 128)) // Quit
+				{
+					game.setScreen(new MainMenuScreen(game));
+					quitPush = false;
+				}
+			}
+		}
 	}
 	
     public void present(float deltaTime)
@@ -164,7 +317,8 @@ public class GamePlayScreen extends Screen
     
     private void DrawReadyUI()
     {
-    	
+    	g.drawPixmap(Assets.shroud, 0, 0, 768, 1024, 768, 320);
+    	g.drawPixmap(Assets.title, 0, 0, 0, 320, 768, 320);
     }
     
     private void DrawGameUI()
@@ -185,12 +339,52 @@ public class GamePlayScreen extends Screen
     
     private void DrawPausedUI()
     {
+    	g.drawPixmap(Assets.shroud, 0, 0, 768, 1024, 768, 320);
+    	g.drawPixmap(Assets.title, 0, 0, 768, 320, 768, 320);
     	
+    	// Buttons
+    	if(resumePush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 320, 0, 1152, 256, 128); // ResumeB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 320, 256, 1152, 256, 128); // ResumeBD
+    	}
+    	
+    	if(quitPush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 640, 0, 1280, 256, 128); // QuitB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 640, 256, 1280, 256, 128); // QuitBD
+    	}
     }
     
     private void DrawGameOverUI()
     {
+    	g.drawPixmap(Assets.shroud, 0, 0, 768, 1024, 768, 320);
+    	g.drawPixmap(Assets.title, 0, 0, 1536, 320, 768, 320);
     	
+    	// Buttons
+    	if(replayPush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 320, 0, 1408, 256, 128); // ReplayB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 320, 256, 1408, 256, 128); // ReplayBD
+    	}
+    	
+    	if(quitPush == false)
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 640, 0, 1280, 256, 128); // QuitB
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.buttons, 256, 640, 256, 1280, 256, 128); // QuitBD
+    	}
     }
     
     private void DrawAnimals() // draws each animal on the screen

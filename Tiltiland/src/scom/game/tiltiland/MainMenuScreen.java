@@ -110,7 +110,7 @@ public class MainMenuScreen extends Screen
     	g.drawPixmap(Assets.background, 0, 0);
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.foreWater, 0, 0);
-    	g.drawPixmap(Assets.title, 0, 0, 0, 0, 768, 400);
+    	g.drawPixmap(Assets.title, 0, 0, 0, 0, 768, 320);
     	
     	
     	// Buttons
