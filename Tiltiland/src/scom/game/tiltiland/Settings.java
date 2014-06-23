@@ -11,7 +11,7 @@ public class Settings
 {
     public static boolean MusicEnabled = true;
     public static boolean SFXEnabled = true;
-    public static int[] highscores = new int[] { 100, 80, 60, 40, 20 };
+    public static int[] highscores = new int[] { 2500, 2000, 1500, 1000, 500 };
     
     public static void load(FileIO files) 
     {

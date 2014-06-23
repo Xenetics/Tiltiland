@@ -21,7 +21,6 @@ public class Font extends Screen
 	{
 		super(game);
 		Input = String.valueOf(inputNumber);
-		X = x;
 		Y = y;
 		Collect();
 	}

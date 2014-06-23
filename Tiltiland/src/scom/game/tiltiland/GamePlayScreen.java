@@ -17,7 +17,7 @@ public class GamePlayScreen extends Screen
         Ready, Running, Paused, GameOver
     }
     
-    GameState state = GameState.Ready;
+    static GameState state = GameState.Ready;
     
 	public GamePlayScreen(Game game)
 	{
@@ -89,42 +89,6 @@ public class GamePlayScreen extends Screen
 						Assets.push.play(1);
 					}
 				}
-				
-				if(state == GameState.Paused && inBounds(event, 256, 320, 256, 128)) // Resume
-				{
-					resumePush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
-				}
-				
-				if(state == GameState.Paused && inBounds(event, 256, 640, 256, 128)) // Quit
-				{
-					quitPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
-				}
-				
-				if(state == GameState.GameOver && inBounds(event, 256, 320, 256, 128)) // Replay
-				{
-					replayPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
-				}
-				
-				if(state == GameState.GameOver && inBounds(event, 256, 640, 256, 128)) // Quit
-				{
-					quitPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
-				}
 			}
 		}
 		
@@ -139,34 +103,11 @@ public class GamePlayScreen extends Screen
 					state = GameState.Paused;
 					pausePush = false;
 				}
-				
-				if(state == GameState.Paused && inBounds(event, 256, 320, 256, 128)) // Resume
-				{
-					state = GameState.Running;
-					resumePush = false;
-				}
-				
-				if(state == GameState.Paused && inBounds(event, 256, 640, 256, 128)) // Quit
-				{
-					game.setScreen(new MainMenuScreen(game));
-					quitPush = false;
-				}
-				
-				if(state == GameState.GameOver && inBounds(event, 256, 320, 256, 128)) // Replay
-				{
-					
-					replayPush = false;
-				}
-				
-				if(state == GameState.GameOver && inBounds(event, 256, 640, 256, 128)) // Quit
-				{
-					game.setScreen(new MainMenuScreen(game));
-					quitPush = false;
-				}
 			}
 		}
 		
 		MoveAnimals(); // updates animal movement
+		
 	}
 	
 	private void UpdatePaused(List<TouchEvent> touchEvents)
@@ -228,15 +169,6 @@ public class GamePlayScreen extends Screen
 			if(event.type == TouchEvent.TOUCH_DOWN)
 			{
 				//all if's for buttons
-				if(inBounds(event, 256, 320, 256, 128)) // Replay
-				{
-					replayPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
-				}
-				
 				if(inBounds(event, 256, 640, 256, 128)) // Quit
 				{
 					quitPush = true; // is button being pushed
@@ -254,16 +186,12 @@ public class GamePlayScreen extends Screen
 			if(event.type == TouchEvent.TOUCH_UP)
 			{
 				//all if's for buttons
-				if(inBounds(event, 256, 320, 256, 128)) // Replay
-				{
-					
-					replayPush = false;
-				}
-				
 				if(inBounds(event, 256, 640, 256, 128)) // Quit
 				{
-					game.setScreen(new MainMenuScreen(game));
 					quitPush = false;
+					Settings.addScore(zoo.Score);
+					Settings.save(game.getFileIO());
+					game.setScreen(new MainMenuScreen(game));
 				}
 			}
 		}
@@ -339,7 +267,7 @@ public class GamePlayScreen extends Screen
     
     private void DrawPausedUI()
     {
-    	g.drawPixmap(Assets.shroud, 0, 0, 768, 1024, 768, 320);
+    	g.drawPixmap(Assets.shroud, 0, 0, 0, 0, 768, 1024);
     	g.drawPixmap(Assets.title, 0, 0, 768, 320, 768, 320);
     	
     	// Buttons
@@ -364,19 +292,12 @@ public class GamePlayScreen extends Screen
     
     private void DrawGameOverUI()
     {
-    	g.drawPixmap(Assets.shroud, 0, 0, 768, 1024, 768, 320);
-    	g.drawPixmap(Assets.title, 0, 0, 1536, 320, 768, 320);
+    	g.drawPixmap(Assets.shroud, 0, 0, 0, 0, 768, 1024);
+    	g.drawPixmap(Assets.title, 0, 0, 1536, 320, 768, 540);
+    	points = new Font(game, zoo.Score, 128, 340);
+    	points = new Font(game, Settings.highscores[0], 128, 540);
     	
     	// Buttons
-    	if(replayPush == false)
-    	{
-    		g.drawPixmap(Assets.buttons, 256, 320, 0, 1408, 256, 128); // ReplayB
-    	}
-    	else
-    	{
-    		g.drawPixmap(Assets.buttons, 256, 320, 256, 1408, 256, 128); // ReplayBD
-    	}
-    	
     	if(quitPush == false)
     	{
     		g.drawPixmap(Assets.buttons, 256, 640, 0, 1280, 256, 128); // QuitB
@@ -387,7 +308,7 @@ public class GamePlayScreen extends Screen
     	}
     }
     
-    private void DrawAnimals() // draws each animal on the screen
+    private void DrawAnimals() // draws each animals on the screen
     {
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{

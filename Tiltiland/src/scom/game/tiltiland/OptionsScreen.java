@@ -32,6 +32,7 @@ public class OptionsScreen extends Screen
 					if(inBounds(event, 128, 320, 512, 128)) // Music slider
 					{
 						Settings.MusicEnabled = !Settings.MusicEnabled;
+						Settings.save(game.getFileIO());
 						if(Settings.SFXEnabled)
 						{
 							Assets.push.play(1);
@@ -40,6 +41,7 @@ public class OptionsScreen extends Screen
 					if(inBounds(event, 128, 640, 512, 128)) // SFX slider
 					{
 						Settings.SFXEnabled = !Settings.SFXEnabled;
+						Settings.save(game.getFileIO());
 						if(Settings.SFXEnabled)
 						{
 							Assets.push.play(1);
@@ -65,6 +67,7 @@ public class OptionsScreen extends Screen
 					if(inBounds(event, 256, 832, 256, 128)) // options
 					{
 						backPush = false;
+						Settings.save(game.getFileIO());
 						game.setScreen(new MainMenuScreen(game));
 					}
 				}

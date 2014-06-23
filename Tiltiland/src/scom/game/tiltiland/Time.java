@@ -3,6 +3,8 @@ package scom.game.tiltiland;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import scom.game.tiltiland.GamePlayScreen.GameState;
+
 public class Time extends Object
 {
 	public int TheTime;
@@ -17,8 +19,11 @@ public class Time extends Object
 			@Override
 			public void run() 
 			{
-				Zoo.Birthdays();
-				TheTime += 1;
+				if(GamePlayScreen.state == GameState.Running)
+				{
+					Zoo.Birthdays();
+					TheTime += 1;
+				}
 			}
 		}, 1000, 1000);
 	}
