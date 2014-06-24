@@ -17,7 +17,7 @@ public class GamePlayScreen extends Screen
         Ready, Running, Paused, GameOver
     }
     
-    static GameState state = GameState.Ready;
+    static GameState state;
     
 	public GamePlayScreen(Game game)
 	{
@@ -25,6 +25,7 @@ public class GamePlayScreen extends Screen
 		island = new Island(133, 384);
 		zoo = island.zoo;
 		zoo.Score = 0;
+		state = GameState.Ready;
 	}
 	
 	// Booleans for button presses
@@ -190,7 +191,6 @@ public class GamePlayScreen extends Screen
 				{
 					quitPush = false;
 					Settings.addScore(zoo.Score);
-					Settings.save(game.getFileIO());
 					game.setScreen(new MainMenuScreen(game));
 				}
 			}

@@ -21,6 +21,7 @@ public class Assets
 	
 	//Sound
 	public static Sound push;
+	public static Sound song;
 	
 	// Font
 	public static Pixmap font;

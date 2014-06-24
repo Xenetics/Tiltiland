@@ -7,11 +7,13 @@ import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
 
+
 public class MainMenuScreen extends Screen 
 {
 	public MainMenuScreen(Game game)
 	{
 		super(game);
+		Assets.song.play(1);
 	}
 	
 	// Booleans for button presses

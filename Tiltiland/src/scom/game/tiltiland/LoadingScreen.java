@@ -31,6 +31,7 @@ public class LoadingScreen extends Screen
 
 		// loading sound assets
 		Assets.push = game.getAudio().newSound("button.ogg");
+		Assets.song = game.getAudio().newSound("thegreatestandbestsongintheworld.ogg");
 		
 		//load font
 		Assets.font = g.newPixmap("Font.png", PixmapFormat.ARGB4444);
