@@ -12,6 +12,7 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Rect;
+import android.graphics.Matrix;
 
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Pixmap;
@@ -111,6 +112,14 @@ public class AndroidGraphics implements Graphics {
 
     public void drawPixmap(Pixmap pixmap, int x, int y) {
         canvas.drawBitmap(((AndroidPixmap)pixmap).bitmap, x, y, null);
+    }
+    
+    public void drawPixmap(Pixmap pixmap, int x, int y, float angle) {
+    	
+        Matrix matrix = new Matrix();
+        matrix.postRotate(angle);
+        Bitmap tempmap = Bitmap.createBitmap(((AndroidPixmap)pixmap).bitmap, 0, 0, ((AndroidPixmap)pixmap).bitmap.getWidth(), ((AndroidPixmap)pixmap).bitmap.getHeight(), matrix, true);
+        canvas.drawBitmap(tempmap, x, y, null);
     }
 
     public int getWidth() {

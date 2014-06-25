@@ -7,6 +7,7 @@ public class Island
 		zoo = new AnimalHandler(); // creates animal handler
 		XPos = x;
 		YPos = y;
+		rotation = 0;
 	}
 	
 	// Objects Within Island
@@ -15,4 +16,5 @@ public class Island
 	// Position on screen
 	public int XPos;
 	public int YPos;
+	public float rotation;
 }

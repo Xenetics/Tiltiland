@@ -2,6 +2,8 @@ package scom.game.tiltiland;
 
 import java.util.List;
 
+import android.content.Context;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
@@ -13,6 +15,8 @@ public class HighscoreScreen extends Screen {
 	{
 		super(game);
 	}
+	
+	Context context;
 	
 	// Fonts for HighScores
 	Font score1;

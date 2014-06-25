@@ -9,7 +9,13 @@ import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
 
-public class GamePlayScreen extends Screen 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
+
+public class GamePlayScreen extends Screen
 {
 	Graphics g = game.getGraphics();
     enum GameState //state machine
@@ -22,6 +28,8 @@ public class GamePlayScreen extends Screen
 	public GamePlayScreen(Game game)
 	{
 		super(game);
+		
+		
 		island = new Island(133, 384);
 		zoo = island.zoo;
 		zoo.Score = 0;
@@ -40,6 +48,11 @@ public class GamePlayScreen extends Screen
 	Font points; // displays points o screen
 	Time timer;
 	Font Timer;
+	
+    public void onCreate() 
+    {
+   
+    }
 	
 	public void update(float deltaTime)
 	{
@@ -73,8 +86,12 @@ public class GamePlayScreen extends Screen
 		}
 	}
 	
+	
 	private void UpdateRunning(List<TouchEvent> touchEvents, float deltaTime)
 	{
+		//accelerometer stuff
+		island.rotation += game.getInput().getAccelX();
+		
 		int len = touchEvents.size(); // length of touches array
 		for(int i = 0; i < len; i++) // touch down loop
 		{
@@ -106,6 +123,7 @@ public class GamePlayScreen extends Screen
 				}
 			}
 		}
+		
 		
 		MoveAnimals(); // updates animal movement
 		
@@ -239,7 +257,7 @@ public class GamePlayScreen extends Screen
     private void DrawWorld()
     {
     	g.drawPixmap(Assets.background, 0, 0);
-    	g.drawPixmap(Assets.island, island.XPos, island.YPos);
+    	g.drawPixmap(Assets.island, island.XPos, island.YPos, island.rotation);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     }
     
