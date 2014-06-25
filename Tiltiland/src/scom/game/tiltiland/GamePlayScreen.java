@@ -8,12 +8,17 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
+import com.badlogic.androidgames.framework.impl.AndroidPixmap;
 
 import android.content.Context;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.util.Log;
 
 public class GamePlayScreen extends Screen
 {
@@ -29,10 +34,13 @@ public class GamePlayScreen extends Screen
 	{
 		super(game);
 		
+		canvas = new Canvas(g.getFrameBuffer());
+		//paint = new Paint();
 		
 		island = new Island(133, 384);
 		zoo = island.zoo;
 		zoo.Score = 0;
+		midPoint =  g.getWidth() * 0.5f;
 		state = GameState.Ready;
 	}
 	
@@ -48,12 +56,15 @@ public class GamePlayScreen extends Screen
 	Font points; // displays points o screen
 	Time timer;
 	Font Timer;
+	Canvas canvas;
 	
-    public void onCreate() 
-    {
-   
-    }
+	//some varables
+    Rect srcRect = new Rect();
+    Rect dstRect = new Rect();
+    float midPoint;
 	
+    public creatures[] drawOrder = {creatures.elephant, creatures.snake, creatures.tiger, creatures.zebra, creatures.giraffe, creatures.bear, creatures.gorilla, creatures.penguin, creatures.sheep, creatures.kangaroo };
+    
 	public void update(float deltaTime)
 	{
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
@@ -81,16 +92,62 @@ public class GamePlayScreen extends Screen
 	{
 		if(touchEvents.size() >0)
 		{
+			//use this for intilization?
 			state = GameState.Running;
 			timer = new Time(zoo); // creates new timer object
 		}
 	}
+
+	private double getWeightDistrubution()
+	{
+		double left = 0;
+		double right = 0;
+		
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+			int x = zoo.Pen.get(i).XPos;
+    		if(x > midPoint)
+    		{	
+    			//right
+    			right += zoo.Pen.get(i).Weight * -(midPoint - x) * 0.000025 ;
+    		}
+    		else
+    		{
+    			//left
+    			left += zoo.Pen.get(i).Weight * (midPoint - x) * 0.000025 ;
+    		}
+    	}
+		
+		return right - left;
+	}
 	
+	private void checkDrown()
+	{
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		//need another case for angle on right side dunk
+    		int x = zoo.Pen.get(i).XPos;
+    		double globalY =  Math.abs(midPoint - x) * Math.tan(Math.toRadians(island.rotation));
+    		
+    		if (globalY < -128)
+    		{
+    			zoo.Murder(i);
+    		}
+    	}
+	}
 	
 	private void UpdateRunning(List<TouchEvent> touchEvents, float deltaTime)
 	{
 		//accelerometer stuff
-		island.rotation += game.getInput().getAccelX();
+		float rotationAmount = 0;
+		rotationAmount += game.getInput().getAccelX() * 0.8;
+		rotationAmount += getWeightDistrubution();
+		Log.v("weight distribution:", " " + getWeightDistrubution());
+		
+		island.rotation += rotationAmount;
+		canvas.rotate(rotationAmount, canvas.getWidth()*0.5f, canvas.getHeight()*0.5f);
+		
+		checkDrown();
 		
 		int len = touchEvents.size(); // length of touches array
 		for(int i = 0; i < len; i++) // touch down loop
@@ -257,7 +314,9 @@ public class GamePlayScreen extends Screen
     private void DrawWorld()
     {
     	g.drawPixmap(Assets.background, 0, 0);
-    	g.drawPixmap(Assets.island, island.XPos, island.YPos, island.rotation);
+    	//draw canvas in here 
+    	canvas.drawBitmap(Assets.island.getBitmap() , island.XPos, island.YPos, null);
+    	//g.drawPixmap(Assets.island, island.XPos, island.YPos, island.rotation);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     }
     
@@ -328,84 +387,33 @@ public class GamePlayScreen extends Screen
     
     private void DrawAnimals() // draws each animals on the screen
     {
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	for(int t = 0; t < drawOrder.length; t++)
     	{
-    		if(zoo.Pen.get(i).Type == creatures.elephant)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.snake)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.tiger)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.zebra)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.giraffe)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.bear)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.gorilla)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.penguin)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.sheep)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
-    	}
-    	
-    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
-    	{
-    		if(zoo.Pen.get(i).Type == creatures.kangaroo)
-    		{
-    			g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
-    		}
+	    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+	    	{
+	    		if(zoo.Pen.get(i).Type == drawOrder[t])
+	    		{
+	    			//this can be cleaned up
+	    			int x = zoo.Pen.get(i).XPos;
+	    			int y = zoo.Pen.get(i).YPos;
+	    			int srcX = zoo.Pen.get(i).SpriteX;
+	    			int srcY = 0;
+	    			int srcWidth = zoo.Pen.get(i).Width;
+	    			int srcHeight = zoo.Pen.get(i).Height;
+	    			
+	    	        srcRect.left = srcX;
+	    	        srcRect.top = srcY;
+	    	        srcRect.right = srcX + srcWidth - 1;
+	    	        srcRect.bottom = srcY + srcHeight - 1;
+	
+	    	        dstRect.left = x;
+	    	        dstRect.top = y;
+	    	        dstRect.right = x + srcWidth - 1;
+	    	        dstRect.bottom = y + srcHeight - 1;
+	
+	    	        canvas.drawBitmap(Assets.animals.getBitmap(), srcRect, dstRect, null);
+	    		}
+	    	}
     	}
     }
     

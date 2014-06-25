@@ -129,5 +129,10 @@ public class AndroidGraphics implements Graphics {
     public int getHeight() {
         return frameBuffer.getHeight();
     }
+    
+    public Bitmap getFrameBuffer()
+    {
+    	return frameBuffer;
+    }
 }
 

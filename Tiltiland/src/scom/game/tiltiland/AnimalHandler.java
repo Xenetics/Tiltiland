@@ -89,7 +89,7 @@ public class AnimalHandler
 	{
 		Gender = 'm';
 		Random generator = new Random();
-		for(int i = 0 ; i < 10 ; ++i)
+		for(int i = 0 ; i < 10 ; ++i)//make iy back to ten
 		{
 			for(int j = 0 ; j < 3 ; ++j)
 			{
@@ -112,6 +112,11 @@ public class AnimalHandler
 				Pen.remove(i);
 			}
 		}
+	}
+	
+	public void Murder(int i)
+	{
+		Pen.remove(i);
 	}
 	
 	public void Birthdays() // ages and make animal breed in needed

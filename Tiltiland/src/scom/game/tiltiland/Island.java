@@ -16,5 +16,5 @@ public class Island
 	// Position on screen
 	public int XPos;
 	public int YPos;
-	public float rotation;
+	public double rotation;
 }
