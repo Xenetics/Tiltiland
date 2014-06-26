@@ -42,7 +42,7 @@ public class GamePlayScreen extends Screen
 		island = new Island(133, 384);
 		zoo = island.zoo;
 		zoo.Score = 0;
-		midPoint =  g.getWidth() * 0.5f;
+		midPoint =  384;
 		state = GameState.Ready;
 	}
 	
@@ -126,14 +126,12 @@ public class GamePlayScreen extends Screen
 		return right - left;
 	}
 	
-	private void checkDrown()
+	private void CheckDrown()
 	{
 		//this is the right idea but the wrong math. NOT RIGHT NO IDEA WHAT THIS IS FOR ANYMORE
 		//alright this entire function is fucked
 		//start the entire function over again for scratch
 		//google some shit on this
-		
-		double midPointOffSet = (g.getHeight() - g.getWidth())* 0.5f * Math.tan(Math.toRadians(180 - island.rotation));
 		
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
@@ -150,7 +148,7 @@ public class GamePlayScreen extends Screen
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			zoo.Pen.get(i).XPos = (int) ( midPoint - (zoo.Pen.get(i).XPos / (Math.cos(island.rotation)) ) );//nope
+		    			//zoo.Pen.get(i).XPos = (int) ( midPoint - ((midPoint - x) / (Math.sin(island.rotation)) ) );//nope
 		    		}
     			}
     			else
@@ -164,7 +162,7 @@ public class GamePlayScreen extends Screen
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			zoo.Pen.get(i).XPos = (int) ( midPoint - (zoo.Pen.get(i).XPos / (Math.cos(island.rotation))  ));//and nope
+		    			//zoo.Pen.get(i).XPos = (int) ( midPoint - ((midPoint - x) / (Math.sin(island.rotation))  ));//and nope
 		    		}
     			}
     		}
@@ -186,7 +184,9 @@ public class GamePlayScreen extends Screen
 		island.rotation += rotationAmount;
 		canvas.rotate(rotationAmount, canvas.getWidth()*0.5f, canvas.getHeight()*0.5f);
 		
-		checkDrown();
+		CheckDrown();
+		MoveAnimals(); // updates animal movement
+		GameOverCheck();
 		
 		int len = touchEvents.size(); // length of touches array
 		for(int i = 0; i < len; i++) // touch down loop
@@ -221,7 +221,7 @@ public class GamePlayScreen extends Screen
 		}
 		
 		
-		MoveAnimals(); // updates animal movement
+		
 		
 	}
 	
@@ -468,7 +468,23 @@ public class GamePlayScreen extends Screen
     {
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		zoo.Pen.get(i).Move(zoo);
+    		zoo.Pen.get(i).Move(zoo, island.rotation);
+    	}
+    }
+    
+    private void GameOverCheck()
+    {
+    	int count = 0;
+    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
+    	{
+    		if(!zoo.Pen.get(i).onGround)
+    		{
+    			count++;
+    		}
+    	}
+    	if(count >= zoo.Pen.size())
+    	{
+    		state = GameState.GameOver;
     	}
     }
     
