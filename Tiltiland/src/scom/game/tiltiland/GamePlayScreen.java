@@ -143,7 +143,7 @@ public class GamePlayScreen extends Screen
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			zoo.Pen.get(i).XPos = (int) (zoo.Pen.get(i).XPos - midPointOffSet);
+		    			zoo.Pen.get(i).XPos = (int) (zoo.Pen.get(i).XPos + midPointOffSet);//?
 		    		}
     			}
     			else
