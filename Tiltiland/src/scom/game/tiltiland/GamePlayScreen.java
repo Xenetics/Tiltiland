@@ -107,16 +107,19 @@ public class GamePlayScreen extends Screen
 		
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-			int x = zoo.Pen.get(i).XPos;
-    		if(x > midPoint)
-    		{	
-    			//right
-    			right += zoo.Pen.get(i).Weight * -(midPoint - x) * 0.000025 ;
-    		}
-    		else
+    		if(zoo.Pen.get(i).onGround)
     		{
-    			//left
-    			left += zoo.Pen.get(i).Weight * (midPoint - x) * 0.000025 ;
+				int x = zoo.Pen.get(i).XPos;
+	    		if(x > midPoint)
+	    		{	
+	    			//right
+	    			right += zoo.Pen.get(i).Weight * -(midPoint - x) * 0.000025 ;
+	    		}
+	    		else
+	    		{
+	    			//left
+	    			left += zoo.Pen.get(i).Weight * (midPoint - x) * 0.000025 ;
+	    		}
     		}
     	}
 		
@@ -125,8 +128,12 @@ public class GamePlayScreen extends Screen
 	
 	private void checkDrown()
 	{
-		//this is the right idea but the wrong math.
-		double midPointOffSet = (g.getHeight() - g.getWidth())* 0.5f * Math.tan(Math.toRadians(island.rotation));
+		//this is the right idea but the wrong math. NOT RIGHT NO IDEA WHAT THIS IS FOR ANYMORE
+		//alright this entire function is fucked
+		//start the entire function over again for scratch
+		//google some shit on this
+		
+		double midPointOffSet = (g.getHeight() - g.getWidth())* 0.5f * Math.tan(Math.toRadians(180 - island.rotation));
 		
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
@@ -134,7 +141,7 @@ public class GamePlayScreen extends Screen
     		{
     			if(zoo.Pen.get(i).XPos < midPoint)
     			{
-		    		//need another case for angle on right side dunk
+		    		//need another case for angle on left side dunk
 		    		int x = zoo.Pen.get(i).XPos;
 		    		
 		    		double globalY =  Math.abs((midPoint - x)) * Math.tan(Math.toRadians(island.rotation));
@@ -143,7 +150,7 @@ public class GamePlayScreen extends Screen
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			zoo.Pen.get(i).XPos = (int) (zoo.Pen.get(i).XPos + midPointOffSet);//?
+		    			zoo.Pen.get(i).XPos = (int) ( midPoint - (zoo.Pen.get(i).XPos / (Math.cos(island.rotation)) ) );//nope
 		    		}
     			}
     			else
@@ -157,7 +164,7 @@ public class GamePlayScreen extends Screen
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			zoo.Pen.get(i).XPos = (int) (zoo.Pen.get(i).XPos + midPointOffSet);
+		    			zoo.Pen.get(i).XPos = (int) ( midPoint - (zoo.Pen.get(i).XPos / (Math.cos(island.rotation))  ));//and nope
 		    		}
     			}
     		}
