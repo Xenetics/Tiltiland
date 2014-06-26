@@ -11,9 +11,11 @@ import com.badlogic.androidgames.framework.Input.TouchEvent;
 import com.badlogic.androidgames.framework.impl.AndroidPixmap;
 
 import android.content.Context;
+import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.Bitmap.Config;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
@@ -33,9 +35,9 @@ public class GamePlayScreen extends Screen
 	public GamePlayScreen(Game game)
 	{
 		super(game);
-		
+		Bitmap tempBuffer = Bitmap.createScaledBitmap(g.getFrameBuffer(), 720, 720, false); //trying to use the but its not working
 		canvas = new Canvas(g.getFrameBuffer());
-		//paint = new Paint();
+	    //canvas.translate( 0, (g.getHeight() - g.getWidth())* 0.5f );
 		
 		island = new Island(133, 384);
 		zoo = island.zoo;
@@ -123,13 +125,43 @@ public class GamePlayScreen extends Screen
 	
 	private void checkDrown()
 	{
+		//this is the right idea but the wrong math.
+		double midPointOffSet = (g.getHeight() - g.getWidth())* 0.5f * Math.tan(Math.toRadians(island.rotation));
+		
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		//need another case for angle on right side dunk
-    		int x = zoo.Pen.get(i).XPos;
-    		double globalY =  Math.abs(midPoint - x) * Math.tan(Math.toRadians(island.rotation));
-    		
-    		if (globalY < -128)
+    		if(zoo.Pen.get(i).onGround)
+    		{
+    			if(zoo.Pen.get(i).XPos < midPoint)
+    			{
+		    		//need another case for angle on right side dunk
+		    		int x = zoo.Pen.get(i).XPos;
+		    		
+		    		double globalY =  Math.abs((midPoint - x)) * Math.tan(Math.toRadians(island.rotation));
+		    		
+		    		if (globalY < -128)
+		    		{
+		    			zoo.Pen.get(i).onGround = false;
+		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
+		    			zoo.Pen.get(i).XPos = (int) (zoo.Pen.get(i).XPos - midPointOffSet);
+		    		}
+    			}
+    			else
+    			{
+    				//need another case for angle on right side dunk
+		    		int x = zoo.Pen.get(i).XPos;
+		    		
+		    		double globalY =  Math.abs((midPoint - x)) * -Math.tan(Math.toRadians(island.rotation));
+		    		
+		    		if (globalY < -128)
+		    		{
+		    			zoo.Pen.get(i).onGround = false;
+		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
+		    			zoo.Pen.get(i).XPos = (int) (zoo.Pen.get(i).XPos + midPointOffSet);
+		    		}
+    			}
+    		}
+    		else if (zoo.Pen.get(i).YPos > g.getHeight())
     		{
     			zoo.Murder(i);
     		}
@@ -393,25 +425,33 @@ public class GamePlayScreen extends Screen
 	    	{
 	    		if(zoo.Pen.get(i).Type == drawOrder[t])
 	    		{
-	    			//this can be cleaned up
-	    			int x = zoo.Pen.get(i).XPos;
-	    			int y = zoo.Pen.get(i).YPos;
-	    			int srcX = zoo.Pen.get(i).SpriteX;
-	    			int srcY = 0;
-	    			int srcWidth = zoo.Pen.get(i).Width;
-	    			int srcHeight = zoo.Pen.get(i).Height;
-	    			
-	    	        srcRect.left = srcX;
-	    	        srcRect.top = srcY;
-	    	        srcRect.right = srcX + srcWidth - 1;
-	    	        srcRect.bottom = srcY + srcHeight - 1;
-	
-	    	        dstRect.left = x;
-	    	        dstRect.top = y;
-	    	        dstRect.right = x + srcWidth - 1;
-	    	        dstRect.bottom = y + srcHeight - 1;
-	
-	    	        canvas.drawBitmap(Assets.animals.getBitmap(), srcRect, dstRect, null);
+	    			if(zoo.Pen.get(i).onGround)
+	    			{
+		    			//this can be cleaned up
+		    			int x = zoo.Pen.get(i).XPos;
+		    			int y = zoo.Pen.get(i).YPos;
+		    			int srcX = zoo.Pen.get(i).SpriteX;
+		    			int srcY = 0;
+		    			int srcWidth = zoo.Pen.get(i).Width;
+		    			int srcHeight = zoo.Pen.get(i).Height;
+		    			
+		    	        srcRect.left = srcX;
+		    	        srcRect.top = srcY;
+		    	        srcRect.right = srcX + srcWidth - 1;
+		    	        srcRect.bottom = srcY + srcHeight - 1;
+		
+		    	        dstRect.left = x;
+		    	        dstRect.top = y;
+		    	        dstRect.right = x + srcWidth - 1;
+		    	        dstRect.bottom = y + srcHeight - 1;
+		
+		    	        canvas.drawBitmap(Assets.animals.getBitmap(), srcRect, dstRect, null);
+		    		}
+	    			else 
+	    			{
+	    				g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+	    				
+	    			}
 	    		}
 	    	}
     	}

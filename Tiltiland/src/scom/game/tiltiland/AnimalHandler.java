@@ -7,22 +7,27 @@ import java.util.Random;
 
 public class AnimalHandler 
 {
+		enum creatures
+	{
+		elephant, giraffe, tiger, zebra, snake, gorilla, penguin, bear, sheep, kangaroo
+	}
+	
+	public int UniqueID;
+	private char Gender;
+	public int Score;
+	
 	public AnimalHandler()
 	{
 		Genesis();
 		UniqueID = 0;
 	}
-	int UniqueID;
 	
 	public int GiveUniqueID()
 	{
 		return UniqueID++;
 	}
 	
-	enum creatures
-	{
-		elephant, giraffe, tiger, zebra, snake, gorilla, penguin, bear, sheep, kangaroo
-	}
+
 	
 	public creatures[] Types = { creatures.elephant, creatures.giraffe, creatures.tiger, creatures.zebra, creatures.snake, creatures.gorilla, creatures.penguin, creatures.bear, creatures.sheep, creatures.kangaroo }; // animal type
 	public int[][] Sprites = { {0,8,8,382}, {9,3,11,384}, {12,7,3,386}, {19,7,3,388}, {26,12,2,390}, {38,5,5,392}, {43,3,3,394}, {46,8,4,396}, {54,4,3,398}, {58,3,4,400}}; // sprite sheet XPOS,Width,Height
@@ -83,7 +88,7 @@ public class AnimalHandler
 		return mate.XPos; 
 	}
 	
-	private char Gender;
+	
 	
 	private void Genesis() // creates the initial animals for the game
 	{
@@ -100,7 +105,7 @@ public class AnimalHandler
 		}
 	}
 	
-	public int Score;
+
 	
 	private void Slaughter()
 	{
