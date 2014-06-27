@@ -1,5 +1,7 @@
 package scom.game.tiltiland;
 
+import android.graphics.Bitmap;
+
 import com.badlogic.androidgames.framework.Pixmap;
 import com.badlogic.androidgames.framework.Sound;
 
@@ -25,5 +27,6 @@ public class Assets
 	
 	// Font
 	public static Pixmap font;
+	public static Bitmap fontBitmap;
 	
 }

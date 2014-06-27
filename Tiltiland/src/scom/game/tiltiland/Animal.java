@@ -139,7 +139,10 @@ public class Animal
 			
 			if(XPos <= 133 || XPos + Width - 1 >= 635 ) // change direction when reach edge
 			{
-				direction = !direction;
+				if(!InHeat)
+				{
+					direction = !direction;
+				}
 			}
 			
 			if(XPos <= 130 || XPos + Width - 1 >= 638 )

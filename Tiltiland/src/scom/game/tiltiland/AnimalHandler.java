@@ -1,6 +1,5 @@
 package scom.game.tiltiland;
 
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -27,13 +26,10 @@ public class AnimalHandler
 		return UniqueID++;
 	}
 	
-
-	
 	public creatures[] Types = { creatures.elephant, creatures.giraffe, creatures.tiger, creatures.zebra, creatures.snake, creatures.gorilla, creatures.penguin, creatures.bear, creatures.sheep, creatures.kangaroo }; // animal type
 	public int[][] Sprites = { {0,8,8,382}, {9,3,11,384}, {12,7,3,386}, {19,7,3,388}, {26,12,2,390}, {38,5,5,392}, {43,3,3,394}, {46,8,4,396}, {54,4,3,398}, {58,3,4,400}}; // sprite sheet XPOS,Width,Height
 	
 	public List<Animal> Pen = new ArrayList<Animal>();
-	//private Animal[] Pen; // holds all the animals in existence
 	
 	public void Birth(creatures type, int x, int y)//handles a request to give birth
 	{
@@ -104,8 +100,6 @@ public class AnimalHandler
 			}
 		}
 	}
-	
-
 	
 	private void Slaughter()
 	{

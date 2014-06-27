@@ -1,9 +1,7 @@
 package scom.game.tiltiland;
 
 import java.util.List;
-
 import android.content.Context;
-
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
@@ -75,11 +73,11 @@ public class HighscoreScreen extends Screen {
     	g.drawPixmap(Assets.foreWater, 0, 0);
     	g.drawPixmap(Assets.title, 0, 0, 1536, 0, 768, 320);
     	
-    	score1 = new Font(game, "1. " + Settings.highscores[0], 128, 256);
-    	score2 = new Font(game, "2. " + Settings.highscores[1], 128, 352);
-    	score3 = new Font(game, "3. " + Settings.highscores[2], 128, 480);
-    	score4 = new Font(game, "4. " + Settings.highscores[3], 128, 608);
-    	score5 = new Font(game, "5. " + Settings.highscores[4], 128, 734);
+    	score1 = new Font(game, "1. " + Settings.highscores[0], 128, 256, 1);
+    	score2 = new Font(game, "2. " + Settings.highscores[1], 128, 352, 1);
+    	score3 = new Font(game, "3. " + Settings.highscores[2], 128, 480, 1);
+    	score4 = new Font(game, "4. " + Settings.highscores[3], 128, 608, 1);
+    	score5 = new Font(game, "5. " + Settings.highscores[4], 128, 734, 1);
     	
     	// Buttons
     	if(backPush == false)

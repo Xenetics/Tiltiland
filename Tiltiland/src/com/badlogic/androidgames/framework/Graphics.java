@@ -8,6 +8,8 @@ public interface Graphics {
     }
 
     public Pixmap newPixmap(String fileName, PixmapFormat format);
+    
+    public Pixmap newPixmap(Bitmap bm, PixmapFormat format);
 
     public void clear(int color);
 

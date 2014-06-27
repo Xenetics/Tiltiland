@@ -73,6 +73,30 @@ public class AndroidGraphics implements Graphics {
 
         return new AndroidPixmap(bitmap, format);
     }
+    
+    public Pixmap newPixmap(Bitmap bm, PixmapFormat format) {
+        Config config = null;
+        if (format == PixmapFormat.RGB565)
+            config = Config.RGB_565;
+        else if (format == PixmapFormat.ARGB4444)
+            config = Config.ARGB_4444;
+        else
+            config = Config.ARGB_8888;
+
+        Options options = new Options();
+        options.inPreferredConfig = config;
+
+        Bitmap bitmap = bm;
+
+        if (bitmap.getConfig() == Config.RGB_565)
+            format = PixmapFormat.RGB565;
+        else if (bitmap.getConfig() == Config.ARGB_4444)
+            format = PixmapFormat.ARGB4444;
+        else
+            format = PixmapFormat.ARGB8888;
+
+        return new AndroidPixmap(bitmap, format);
+    }
 
     public void clear(int color) {
         canvas.drawRGB((color & 0xff0000) >> 16, (color & 0xff00) >> 8,

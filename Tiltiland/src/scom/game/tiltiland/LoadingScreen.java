@@ -4,6 +4,7 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
+
 import android.content.Context;
 
 public class LoadingScreen extends Screen 
@@ -35,6 +36,8 @@ public class LoadingScreen extends Screen
 		
 		//load font
 		Assets.font = g.newPixmap("Font.png", PixmapFormat.ARGB4444);
+		
+		Assets.fontBitmap = Assets.font.getBitmap();
 		
 		Settings.load(game.getFileIO()); // loads saved settings file
 		

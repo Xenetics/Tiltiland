@@ -1,25 +1,13 @@
 package scom.game.tiltiland;
 
 import java.util.List;
-
 import scom.game.tiltiland.AnimalHandler.creatures;
-
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
-import com.badlogic.androidgames.framework.impl.AndroidPixmap;
-
-import android.content.Context;
-import android.graphics.Bitmap;
 import android.graphics.Canvas;
-import android.graphics.Paint;
 import android.graphics.Rect;
-import android.graphics.Bitmap.Config;
-import android.hardware.Sensor;
-import android.hardware.SensorEvent;
-import android.hardware.SensorEventListener;
-import android.hardware.SensorManager;
 import android.util.Log;
 
 public class GamePlayScreen extends Screen
@@ -35,10 +23,7 @@ public class GamePlayScreen extends Screen
 	public GamePlayScreen(Game game)
 	{
 		super(game);
-		Bitmap tempBuffer = Bitmap.createScaledBitmap(g.getFrameBuffer(), 720, 720, false); //trying to use the but its not working
 		canvas = new Canvas(g.getFrameBuffer());
-	    //canvas.translate( 0, (g.getHeight() - g.getWidth())* 0.5f );
-		
 		island = new Island(133, 384);
 		zoo = island.zoo;
 		zoo.Score = 0;
@@ -60,7 +45,7 @@ public class GamePlayScreen extends Screen
 	Font Timer;
 	Canvas canvas;
 	
-	//some varables
+	// Some variables
     Rect srcRect = new Rect();
     Rect dstRect = new Rect();
     float midPoint;
@@ -177,7 +162,7 @@ public class GamePlayScreen extends Screen
 	{
 		//accelerometer stuff
 		float rotationAmount = 0;
-		rotationAmount += game.getInput().getAccelX() * 0.8;
+		rotationAmount += game.getInput().getAccelX() * -0.8;
 		rotationAmount += getWeightDistrubution();
 		Log.v("weight distribution:", " " + getWeightDistrubution());
 		
@@ -367,8 +352,8 @@ public class GamePlayScreen extends Screen
     
     private void DrawGameUI()
     {    	
-    	points = new Font(game, zoo.Score, 32, 32);
-    	Timer = new Font(game, timer.TheTime, 544, 32);
+    	points = new Font(game, zoo.Score, 32, 32, 1);
+    	Timer = new Font(game, timer.TheTime, 544, 32, 1);
     	
     	// Buttons
     	if(pausePush == false)
@@ -410,8 +395,8 @@ public class GamePlayScreen extends Screen
     {
     	g.drawPixmap(Assets.shroud, 0, 0, 0, 0, 768, 1024);
     	g.drawPixmap(Assets.title, 0, 0, 1536, 320, 768, 540);
-    	points = new Font(game, zoo.Score, 128, 340);
-    	points = new Font(game, Settings.highscores[0], 128, 540);
+    	points = new Font(game, zoo.Score, 128, 340, 1);
+    	points = new Font(game, Settings.highscores[0], 128, 540, 1);
     	
     	// Buttons
     	if(quitPush == false)
@@ -434,7 +419,7 @@ public class GamePlayScreen extends Screen
 	    		{
 	    			if(zoo.Pen.get(i).onGround)
 	    			{
-		    			//this can be cleaned up
+		    			// This can be cleaned up
 		    			int x = zoo.Pen.get(i).XPos;
 		    			int y = zoo.Pen.get(i).YPos;
 		    			int srcX = zoo.Pen.get(i).SpriteX;
