@@ -8,7 +8,6 @@ import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.util.Log;
 
 public class GamePlayScreen extends Screen
 {
@@ -44,6 +43,19 @@ public class GamePlayScreen extends Screen
 	Time timer;
 	Font Timer;
 	Canvas canvas;
+	
+    // Fonts for Stats draw
+    Font StatHead;
+    Font Elephants;
+    Font Giraffe;
+    Font Tiger;
+    Font Zebra;
+    Font Snake;
+    Font Gorilla;
+    Font Penguin;
+    Font Bear;
+    Font Sheep;
+    Font Kangaroo;
 	
 	// Some variables
     Rect srcRect = new Rect();
@@ -132,8 +144,8 @@ public class GamePlayScreen extends Screen
 		    		if (globalY < -128)
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
+		    			zoo.TakeCensus(zoo.Pen.get(i).Type, zoo.Pen.get(i).Gender, false);
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			//zoo.Pen.get(i).XPos = (int) ( midPoint - ((midPoint - x) / (Math.sin(island.rotation)) ) );//nope
 		    		}
     			}
     			else
@@ -146,8 +158,8 @@ public class GamePlayScreen extends Screen
 		    		if (globalY < -128)
 		    		{
 		    			zoo.Pen.get(i).onGround = false;
+		    			zoo.TakeCensus(zoo.Pen.get(i).Type, zoo.Pen.get(i).Gender, false);
 		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
-		    			//zoo.Pen.get(i).XPos = (int) ( midPoint - ((midPoint - x) / (Math.sin(island.rotation))  ));//and nope
 		    		}
     			}
     		}
@@ -164,7 +176,6 @@ public class GamePlayScreen extends Screen
 		float rotationAmount = 0;
 		rotationAmount += game.getInput().getAccelX() * -0.8;
 		rotationAmount += getWeightDistrubution();
-		Log.v("weight distribution:", " " + getWeightDistrubution());
 		
 		island.rotation += rotationAmount;
 		canvas.rotate(rotationAmount, canvas.getWidth()*0.5f, canvas.getHeight()*0.5f);
@@ -340,7 +351,6 @@ public class GamePlayScreen extends Screen
     	g.drawPixmap(Assets.background, 0, 0);
     	//draw canvas in here 
     	canvas.drawBitmap(Assets.island.getBitmap() , island.XPos, island.YPos, null);
-    	//g.drawPixmap(Assets.island, island.XPos, island.YPos, island.rotation);
     	g.drawPixmap(Assets.foreWater, 0, 0);
     }
     
@@ -354,6 +364,8 @@ public class GamePlayScreen extends Screen
     {    	
     	points = new Font(game, zoo.Score, 32, 32, 1);
     	Timer = new Font(game, timer.TheTime, 544, 32, 1);
+    	
+    	DrawStats();
     	
     	// Buttons
     	if(pausePush == false)
@@ -447,6 +459,21 @@ public class GamePlayScreen extends Screen
 	    		}
 	    	}
     	}
+    }
+
+    private void DrawStats()
+    {
+    	StatHead = new Font(game, "animal populations", 384, 704, 0.31f);
+    	Elephants = new Font(game, "elephants: m: " + zoo.Census[0][0] + " f: " + zoo.Census[0][1], 256, 732, 0.31f);
+    	Giraffe = new Font(game, "giraffe: m: " + zoo.Census[1][0] + " f: " + zoo.Census[1][1], 256, 750, 0.31f);
+    	Tiger = new Font(game, "tiger: m: " + zoo.Census[2][0] + " f: " + zoo.Census[2][1], 256, 768, 0.31f);
+    	Zebra = new Font(game, "zebra: m: " + zoo.Census[3][0] + " f: " + zoo.Census[3][1], 256, 786, 0.31f);
+    	Snake = new Font(game, "snake: m: " + zoo.Census[4][0] + " f: " + zoo.Census[4][1], 256, 804, 0.31f);
+    	Gorilla = new Font(game, "gorilla: m: " + zoo.Census[5][0] + " f: " + zoo.Census[5][1], 512, 732, 0.31f);
+    	Penguin = new Font(game, "penguin: m: " + zoo.Census[6][0] + " f: " + zoo.Census[6][1], 512, 750, 0.31f);
+    	Bear = new Font(game, "bear: m: " + zoo.Census[7][0] + " f: " + zoo.Census[7][1], 512, 768, 0.31f);
+    	Sheep = new Font(game, "sheep: m: " + zoo.Census[8][0] + " f: " + zoo.Census[8][1], 512, 786, 0.31f);
+    	Kangaroo = new Font(game, "kangaroo: m: " + zoo.Census[9][0] + " f: " + zoo.Census[9][1], 512, 804, 0.31f);
     }
     
     private void MoveAnimals()

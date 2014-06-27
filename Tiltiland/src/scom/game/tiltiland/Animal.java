@@ -51,25 +51,27 @@ public class Animal
 	private int fertile; 
 	private boolean InHeat;
 	private boolean bred; 
-	
+	private boolean direction; // what direction they are traveling. true = right, false = left
+	int mateID; // save mate that was chosen
+	boolean chosen;
 	
 	public void Birthday() // ages animal
 	{
 		Age += 1;
-		
-		if(fertile == 10)
-		{
-			InHeat = true;
-			bred = false;
-		}
-		if(!InHeat)
-		{
-			fertile += 1;
-		}
+		//if (Gender == 'f')
+		//{
+			if(fertile == 10)
+			{
+				InHeat = true;
+				bred = false;
+			}
+			if(!InHeat)
+			{
+				fertile += 1;
+			}
+		//}
 	}
 	
-	int mateID; // save mate that was chosen
-	boolean chosen;
 	private int GetMatePos(AnimalHandler zoo) // returns mates pos
 	{
 		int POS = 0;
@@ -95,11 +97,7 @@ public class Animal
 			InHeat = false;
 		}
 	}
-	
-	private boolean direction; // what direction they are traveling. true = right, false = left
-	
-	
-	
+		
 	public void Move(AnimalHandler zoo, Double tilt) // makes animals walk back and forth
 	{
 		if(onGround)
@@ -148,6 +146,7 @@ public class Animal
 			if(XPos <= 130 || XPos + Width - 1 >= 638 )
 			{
 				onGround = false;
+				zoo.TakeCensus(Type, Gender, false);
 				double globalY =  Math.abs((384 - XPos)) * Math.tan(Math.toRadians(tilt));
 				YPos = (int) Math.round(globalY + 512 + 128);
 			}
