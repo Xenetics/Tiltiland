@@ -10,6 +10,7 @@ public class Assets
 	//Graphics
 	public static Pixmap background;
 	public static Pixmap title;
+	public static Pixmap stats;
 	public static Pixmap foreWater;
 	public static Pixmap shroud;
 	public static Pixmap buttons;

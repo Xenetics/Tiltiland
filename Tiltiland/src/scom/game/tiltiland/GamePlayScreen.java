@@ -463,17 +463,17 @@ public class GamePlayScreen extends Screen
 
     private void DrawStats()
     {
-    	StatHead = new Font(game, "animal populations", 384, 704, 0.31f);
-    	Elephants = new Font(game, "elephants: m: " + zoo.Census[0][0] + " f: " + zoo.Census[0][1], 256, 732, 0.31f);
-    	Giraffe = new Font(game, "giraffe: m: " + zoo.Census[1][0] + " f: " + zoo.Census[1][1], 256, 750, 0.31f);
-    	Tiger = new Font(game, "tiger: m: " + zoo.Census[2][0] + " f: " + zoo.Census[2][1], 256, 768, 0.31f);
-    	Zebra = new Font(game, "zebra: m: " + zoo.Census[3][0] + " f: " + zoo.Census[3][1], 256, 786, 0.31f);
-    	Snake = new Font(game, "snake: m: " + zoo.Census[4][0] + " f: " + zoo.Census[4][1], 256, 804, 0.31f);
-    	Gorilla = new Font(game, "gorilla: m: " + zoo.Census[5][0] + " f: " + zoo.Census[5][1], 512, 732, 0.31f);
-    	Penguin = new Font(game, "penguin: m: " + zoo.Census[6][0] + " f: " + zoo.Census[6][1], 512, 750, 0.31f);
-    	Bear = new Font(game, "bear: m: " + zoo.Census[7][0] + " f: " + zoo.Census[7][1], 512, 768, 0.31f);
-    	Sheep = new Font(game, "sheep: m: " + zoo.Census[8][0] + " f: " + zoo.Census[8][1], 512, 786, 0.31f);
-    	Kangaroo = new Font(game, "kangaroo: m: " + zoo.Census[9][0] + " f: " + zoo.Census[9][1], 512, 804, 0.31f);
+    	g.drawPixmap(Assets.stats, 192, 704, 0, 0, 478, 163);
+    	Elephants = new Font(game, zoo.Census[0][0] + " : " + zoo.Census[0][1], 354, 732, 0.31f);
+    	Giraffe = new Font(game, zoo.Census[1][0] + " : " + zoo.Census[1][1], 354, 760, 0.31f);
+    	Tiger = new Font(game, zoo.Census[2][0] + " : " + zoo.Census[2][1], 354, 788, 0.31f);
+    	Zebra = new Font(game, zoo.Census[3][0] + " : " + zoo.Census[3][1], 354, 816, 0.31f);
+    	Snake = new Font(game, zoo.Census[4][0] + " : " + zoo.Census[4][1], 354, 845, 0.31f);
+    	Gorilla = new Font(game, zoo.Census[5][0] + " : " + zoo.Census[5][1], 637, 732, 0.31f);
+    	Penguin = new Font(game, zoo.Census[6][0] + " : " + zoo.Census[6][1], 637, 760, 0.31f);
+    	Bear = new Font(game, zoo.Census[7][0] + " : " + zoo.Census[7][1], 637, 788, 0.31f);
+    	Sheep = new Font(game, zoo.Census[8][0] + " : " + zoo.Census[8][1], 637, 816, 0.31f);
+    	Kangaroo = new Font(game, zoo.Census[9][0] + " : " + zoo.Census[9][1], 637, 845, 0.31f);
     }
     
     private void MoveAnimals()

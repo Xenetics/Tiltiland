@@ -23,6 +23,7 @@ public class LoadingScreen extends Screen
 		// loading image assets
 		Assets.background = g.newPixmap("background.png", PixmapFormat.RGB565);
 		Assets.title = g.newPixmap("title.png", PixmapFormat.ARGB4444);
+		Assets.stats = g.newPixmap("stats.png", PixmapFormat.ARGB4444);
 		Assets.foreWater = g.newPixmap("foreWater.png", PixmapFormat.ARGB4444);
 		Assets.shroud = g.newPixmap("shroud.png", PixmapFormat.ARGB4444);
 		Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);

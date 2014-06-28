@@ -53,11 +53,25 @@ public class AnimalHandler
 				{
 					if(gender == 'm')
 					{
-						Census[i][0] -= 1;
+						if(Census[i][0] < 0)
+						{
+							Census[i][0] = 0;
+						}
+						else
+						{
+							Census[i][0] -= 1;
+						}
 					}
 					else
 					{
-						Census[i][1] -= 1;
+						if(Census[i][1] < 0)
+						{
+							Census[i][1] = 0;
+						}
+						else
+						{
+							Census[i][1] -= 1;
+						}
 					}
 				}
 				break;
@@ -103,9 +117,9 @@ public class AnimalHandler
 		int id = 0;
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
-			if(Pen.get(i).Type == mate.Type)
+			if(Pen.get(i).Type == mate.Type && Pen.get(i).ID != mate.ID && Pen.get(i).Gender == 'm')
 			{
-				if(Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384) && Pen.get(i).Gender == 'm')
+				if(Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384))
 				{
 					id = Pen.get(i).ID;
 				}
@@ -124,7 +138,7 @@ public class AnimalHandler
 	private void Genesis() // creates the initial animals for the game
 	{
 		Random generator = new Random();
-		for(int i = 0 ; i < 10 ; ++i)//make it back to ten
+		for(int i = 0 ; i < 1 ; ++i)//make it back to ten
 		{
 			Gender = 'm';
 			for(int j = 0 ; j < 3 ; ++j)

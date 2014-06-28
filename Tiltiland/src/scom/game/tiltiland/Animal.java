@@ -27,8 +27,11 @@ public class Animal
 		{
 			direction = false;
 		}
+		ChangeChance = 0.10;
 		fertile = 0;
 		chosen = false;
+		InHeat = false;
+		bred = false;
 	}
 	
 	public int XPos; // animals POS in x
@@ -52,14 +55,16 @@ public class Animal
 	private boolean InHeat;
 	private boolean bred; 
 	private boolean direction; // what direction they are traveling. true = right, false = left
+	private int DirChange; // count for change direction
+	private double ChangeChance; // % chance for the animal to change direction ever second
 	int mateID; // save mate that was chosen
-	boolean chosen;
+	private boolean chosen;
 	
 	public void Birthday() // ages animal
 	{
 		Age += 1;
-		//if (Gender == 'f')
-		//{
+		if (Gender == 'f')
+		{
 			if(fertile == 10)
 			{
 				InHeat = true;
@@ -69,7 +74,7 @@ public class Animal
 			{
 				fertile += 1;
 			}
-		//}
+		}
 	}
 	
 	private int GetMatePos(AnimalHandler zoo) // returns mates pos
@@ -87,14 +92,13 @@ public class Animal
 	
 	public void Breed(AnimalHandler zoo) // decides to breed
 	{
-		if (chosen == false && InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
+		if(Gender == 'f')
 		{
-			chosen = true;
-			mateID = zoo.ChooseMate(this);
-		}
-		else
-		{
-			InHeat = false;
+			if (chosen == false && InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
+			{
+				chosen = true;
+				mateID = zoo.ChooseMate(this);
+			}
 		}
 	}
 		
@@ -112,34 +116,52 @@ public class Animal
 			}
 			else
 			{
-				if(chosen == true && XPos == GetMatePos(zoo)) // birth when at mate
+				if(Gender == 'f')
 				{
-					fertile = 0;
-					InHeat = false;
-					bred = true;
-					chosen = false;
-					zoo.Birth(Type, XPos, YPos);
-				}
-				
-				if(InHeat == true && bred == false) // move to mate
-				{
-					if(XPos < GetMatePos(zoo))
+					if(chosen == true && XPos == GetMatePos(zoo)) // birth when at mate
 					{
-						direction = true;
+						zoo.Birth(Type, XPos, YPos);
+						fertile = 0;
+						InHeat = false;
+						bred = true;
+						chosen = false;
+						mateID = -1;
 					}
-					else
+					
+					if(InHeat == true && bred == false) // move to mate
 					{
-						direction = false;
+						if(XPos < GetMatePos(zoo))
+						{
+							direction = true;
+						}
+						else
+						{
+							direction = false;
+						}
 					}
 				}
 			}
-			
 			
 			if(XPos <= 133 || XPos + Width - 1 >= 635 ) // change direction when reach edge
 			{
 				if(!InHeat)
 				{
 					direction = !direction;
+				}
+			}
+			
+			DirChange += 1;
+			if(DirChange == 60)
+			{
+				double Random = Math.random();
+				if(Random < ChangeChance)
+				{
+					direction = !direction;
+					ChangeChance = 0.10;
+				}
+				else
+				{
+					ChangeChance += 0.10;
 				}
 			}
 			
@@ -155,7 +177,7 @@ public class Animal
 			{
 				if(InHeat == true && bred == false)
 				{
-					XPos += 2;
+					XPos += 3;
 				}
 				else
 				{
@@ -166,7 +188,7 @@ public class Animal
 			{
 				if(InHeat == true && bred == false)
 				{
-					XPos -= 2;
+					XPos -= 3;
 				}
 				else
 				{
