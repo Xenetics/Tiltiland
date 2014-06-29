@@ -125,18 +125,12 @@ public class GamePlayScreen extends Screen
 	
 	private void CheckDrown()
 	{
-		//this is the right idea but the wrong math. NOT RIGHT NO IDEA WHAT THIS IS FOR ANYMORE
-		//alright this entire function is fucked
-		//start the entire function over again for scratch
-		//google some shit on this
-		
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
     		if(zoo.Pen.get(i).onGround)
     		{
     			if(zoo.Pen.get(i).XPos < midPoint)
     			{
-		    		//need another case for angle on left side dunk
 		    		int x = zoo.Pen.get(i).XPos;
 		    		
 		    		double globalY =  Math.abs((midPoint - x)) * Math.tan(Math.toRadians(island.rotation));
@@ -150,7 +144,6 @@ public class GamePlayScreen extends Screen
     			}
     			else
     			{
-    				//need another case for angle on right side dunk
 		    		int x = zoo.Pen.get(i).XPos;
 		    		
 		    		double globalY =  Math.abs((midPoint - x)) * -Math.tan(Math.toRadians(island.rotation));
@@ -172,7 +165,7 @@ public class GamePlayScreen extends Screen
 	
 	private void UpdateRunning(List<TouchEvent> touchEvents, float deltaTime)
 	{
-		//accelerometer stuff
+		// Accelerometer stuff
 		float rotationAmount = 0;
 		rotationAmount += game.getInput().getAccelX() * -0.8;
 		rotationAmount += getWeightDistrubution();

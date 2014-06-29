@@ -114,18 +114,25 @@ public class AnimalHandler
 	public int ChooseMate(Animal mate) // returns best possible mate
 	{
 		Animal temp = Pen.get(0);
-		int id = 0;
+		int id = -1;
+		
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
-			if(Pen.get(i).Type == mate.Type && Pen.get(i).ID != mate.ID && Pen.get(i).Gender == 'm')
+			if(Pen.get(i).Type == mate.Type && Pen.get(i).Gender == 'm')
 			{
-				if(Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384))
+				if(id == -1)
 				{
+					temp = Pen.get(i);
+					id = temp.ID;
+				}
+				if(Pen.get(i).ID != temp.ID && Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384))
+				{
+					temp = Pen.get(i);
 					id = Pen.get(i).ID;
 				}
 			}
 		}
-		return id; 
+		return id;
 	}
 	
 	public int LocateMate(Animal mate) // return xPOS of chosen mate
@@ -154,7 +161,7 @@ public class AnimalHandler
 	{
 		for(int i = 0; i < Pen.size() ; ++i)
 		{
-			if(Pen.get(i).Age >= 100)
+			if(Pen.get(i).Age >= Pen.get(i).MaxAge)
 			{
 				TakeCensus(Pen.get(i).Type, Pen.get(i).Gender, false);
 				Score = Score + Pen.get(i).Weight;
@@ -170,11 +177,6 @@ public class AnimalHandler
 	
 	public void Birthdays() // ages and make animal breed in needed
 	{
-		for(int i = 0 ; i < Pen.size(); ++i)
-		{
-			Pen.get(i).Birthday();
-		}
-		
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
 			Pen.get(i).Breed(this);

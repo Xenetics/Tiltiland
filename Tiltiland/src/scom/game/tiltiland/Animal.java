@@ -1,34 +1,24 @@
 package scom.game.tiltiland;
 
 import scom.game.tiltiland.AnimalHandler.creatures;
+import java.util.Random;
 
 public class Animal 
 {
 	public Animal(creatures type, char gender, int spriteX, int motherX, int motherY, int width, int height, int id)
 	{
+		SpriteX = spriteX;
 		Type = type;
 		Weight = width * height;
 		Gender = gender;
 		ID = id;
 		Age = 0;
-		SpriteX = spriteX;
 		Width = width;
 		Height = height;
 		XPos = motherX;
 		YPos = motherY;
 		onGround = true;
-		
-		double Random = Math.random();
-		if(Random > 0.50)
-		{
-			direction = true;
-		}
-		else
-		{
-			direction = false;
-		}
-		ChangeChance = 0.10;
-		fertile = 0;
+		Randoms(); // determines starting
 		chosen = false;
 		InHeat = false;
 		bred = false;
@@ -45,7 +35,7 @@ public class Animal
 	public boolean onGround;
 	
 	public int Age; // how old the animal is in seconds
-	
+	public int MaxAge; // how old they will live to
 	
 	public int SpriteX; // X POS on sprite sheet
 	public int Width; // sprite width
@@ -58,23 +48,31 @@ public class Animal
 	private int DirChange; // count for change direction
 	private double ChangeChance; // % chance for the animal to change direction ever second
 	int mateID; // save mate that was chosen
-	private boolean chosen;
+	public boolean chosen;
 	
-	public void Birthday() // ages animal
+	private void Randoms()
 	{
-		Age += 1;
-		if (Gender == 'f')
+		double Random = Math.random();
+		if(Random > 0.50)
 		{
-			if(fertile == 10)
-			{
-				InHeat = true;
-				bred = false;
-			}
-			if(!InHeat)
-			{
-				fertile += 1;
-			}
+			direction = true;
 		}
+		else
+		{
+			direction = false;
+		}
+		
+		Random generator = new Random();
+		int Random2 = generator.nextInt(120 - 90) + 90;
+		MaxAge = Random2; // make random between 90 and 120
+		
+		Random generator2 = new Random();
+		int Random3 = generator2.nextInt(7 - 2) + 2;
+		fertile = Random3; // make random between 2 and 7
+		
+		double range = (0.50 - 0.10) + 0.10;
+		double Random4 = Math.random() * range + 0.10;
+		ChangeChance = Random4; // make random between 0.10 and 0.50
 	}
 	
 	private int GetMatePos(AnimalHandler zoo) // returns mates pos
@@ -92,12 +90,43 @@ public class Animal
 	
 	public void Breed(AnimalHandler zoo) // decides to breed
 	{
-		if(Gender == 'f')
+		Age += 1;
+		
+		if (Gender == 'f')
 		{
+			if(fertile == 10)
+			{
+				InHeat = true;
+				bred = false;
+			}
+			
+			if(!InHeat)
+			{
+				fertile += 1;
+			}
+		
+			if(chosen == true)
+			{
+				for(int i = 0; i < zoo.Pen.size(); ++i)
+				{
+					if (zoo.Pen.get(i).ID == mateID)
+					{
+						break;
+					}
+					else if(i == zoo.Pen.size() - 1)
+					{
+						chosen = false;
+					}
+				}
+			}
+			
 			if (chosen == false && InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
 			{
-				chosen = true;
 				mateID = zoo.ChooseMate(this);
+				if(mateID != -1)
+				{
+					chosen = true;
+				}
 			}
 		}
 	}
@@ -118,7 +147,7 @@ public class Animal
 			{
 				if(Gender == 'f')
 				{
-					if(chosen == true && XPos == GetMatePos(zoo)) // birth when at mate
+					if(InHeat == true && chosen == true && XPos == GetMatePos(zoo) && onGround == true) // birth when at mate
 					{
 						zoo.Birth(Type, XPos, YPos);
 						fertile = 0;
@@ -126,6 +155,7 @@ public class Animal
 						bred = true;
 						chosen = false;
 						mateID = -1;
+						direction = !direction;
 					}
 					
 					if(InHeat == true && bred == false) // move to mate
@@ -144,25 +174,7 @@ public class Animal
 			
 			if(XPos <= 133 || XPos + Width - 1 >= 635 ) // change direction when reach edge
 			{
-				if(!InHeat)
-				{
-					direction = !direction;
-				}
-			}
-			
-			DirChange += 1;
-			if(DirChange == 60)
-			{
-				double Random = Math.random();
-				if(Random < ChangeChance)
-				{
-					direction = !direction;
-					ChangeChance = 0.10;
-				}
-				else
-				{
-					ChangeChance += 0.10;
-				}
+				direction = !direction;
 			}
 			
 			if(XPos <= 130 || XPos + Width - 1 >= 638 )
@@ -175,7 +187,7 @@ public class Animal
 			
 			if(direction == true) // move based on direction
 			{
-				if(InHeat == true && bred == false)
+				if(InHeat)
 				{
 					XPos += 3;
 				}
@@ -186,13 +198,32 @@ public class Animal
 			}
 			else
 			{
-				if(InHeat == true && bred == false)
+				if(InHeat)
 				{
 					XPos -= 3;
 				}
 				else
 				{
 					XPos -= 1;
+				}
+			}
+			
+			if(!InHeat)
+			{
+				DirChange += 1;
+				if(DirChange >= 60)
+				{
+					double Random = Math.random();
+					if(Random < ChangeChance)
+					{
+						direction = !direction;
+						ChangeChance = 0.10;
+					}
+					else
+					{
+						ChangeChance += 0.10;
+					}
+					DirChange = 0;
 				}
 			}
 		}
