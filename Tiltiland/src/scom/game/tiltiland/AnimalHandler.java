@@ -118,14 +118,15 @@ public class AnimalHandler
 		
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
-			if(Pen.get(i).Type == mate.Type && Pen.get(i).Gender == 'm')
+			if(Pen.get(i).Type == mate.Type && Pen.get(i).Gender == 'm' && Pen.get(i).onGround == true)
 			{
 				if(id == -1)
 				{
 					temp = Pen.get(i);
 					id = temp.ID;
 				}
-				if(Pen.get(i).ID != temp.ID && Math.abs(Pen.get(i).XPos - 384) < Math.abs(temp.XPos - 384))
+				
+				if(Math.abs(Pen.get(i).XPos - mate.XPos) < Math.abs(temp.XPos - mate.XPos))
 				{
 					temp = Pen.get(i);
 					id = Pen.get(i).ID;
@@ -135,17 +136,10 @@ public class AnimalHandler
 		return id;
 	}
 	
-	public int LocateMate(Animal mate) // return xPOS of chosen mate
-	{
-		return mate.XPos; 
-	}
-	
-	
-	
 	private void Genesis() // creates the initial animals for the game
 	{
 		Random generator = new Random();
-		for(int i = 0 ; i < 1 ; ++i)//make it back to ten
+		for(int i = 0 ; i < 10 ; ++i)//make it back to ten
 		{
 			Gender = 'm';
 			for(int j = 0 ; j < 3 ; ++j)

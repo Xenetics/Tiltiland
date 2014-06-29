@@ -21,7 +21,6 @@ public class Animal
 		Randoms(); // determines starting
 		chosen = false;
 		InHeat = false;
-		bred = false;
 	}
 	
 	public int XPos; // animals POS in x
@@ -43,7 +42,6 @@ public class Animal
 	
 	private int fertile; 
 	private boolean InHeat;
-	private boolean bred; 
 	private boolean direction; // what direction they are traveling. true = right, false = left
 	private int DirChange; // count for change direction
 	private double ChangeChance; // % chance for the animal to change direction ever second
@@ -97,7 +95,6 @@ public class Animal
 			if(fertile == 10)
 			{
 				InHeat = true;
-				bred = false;
 			}
 			
 			if(!InHeat)
@@ -120,7 +117,7 @@ public class Animal
 				}
 			}
 			
-			if (chosen == false && InHeat == true && bred == false) // every 10 seconds will choose mate if in heat
+			if (chosen == false && InHeat == true) // every 10 seconds will choose mate if in heat
 			{
 				mateID = zoo.ChooseMate(this);
 				if(mateID != -1)
@@ -147,18 +144,17 @@ public class Animal
 			{
 				if(Gender == 'f')
 				{
-					if(InHeat == true && chosen == true && XPos == GetMatePos(zoo) && onGround == true) // birth when at mate
+					if(InHeat == true && chosen == true && (XPos - 2 <= GetMatePos(zoo) && XPos + 2 >= GetMatePos(zoo)) && onGround == true) // birth when at mate
 					{
 						zoo.Birth(Type, XPos, YPos);
 						fertile = 0;
 						InHeat = false;
-						bred = true;
 						chosen = false;
 						mateID = -1;
 						direction = !direction;
 					}
 					
-					if(InHeat == true && bred == false) // move to mate
+					if(InHeat == true) // move to mate
 					{
 						if(XPos < GetMatePos(zoo))
 						{
@@ -170,9 +166,51 @@ public class Animal
 						}
 					}
 				}
+				
+				if(!InHeat) // Random Wander with critical mass
+				{
+					DirChange += 1;
+					if(DirChange >= 60)
+					{
+						double Random = Math.random();
+						if(Random < ChangeChance)
+						{
+							direction = !direction;
+							ChangeChance = 0.10;
+						}
+						else
+						{
+							ChangeChance += 0.10;
+						}
+						DirChange = 0;
+					}
+				}
+				
+				if(direction == true) // move based on direction
+				{
+					if(InHeat)
+					{
+						XPos += 3;
+					}
+					else
+					{
+						XPos += 1;
+					}
+				}
+				else
+				{
+					if(InHeat)
+					{
+						XPos -= 3;
+					}
+					else
+					{
+						XPos -= 1;
+					}
+				}
 			}
 			
-			if(XPos <= 133 || XPos + Width - 1 >= 635 ) // change direction when reach edge
+			if(XPos <= 134 || XPos + Width - 1 >= 634 ) // change direction when reach edge
 			{
 				direction = !direction;
 			}
@@ -184,48 +222,7 @@ public class Animal
 				double globalY =  Math.abs((384 - XPos)) * Math.tan(Math.toRadians(tilt));
 				YPos = (int) Math.round(globalY + 512 + 128);
 			}
-			
-			if(direction == true) // move based on direction
-			{
-				if(InHeat)
-				{
-					XPos += 3;
-				}
-				else
-				{
-					XPos += 1;
-				}
-			}
-			else
-			{
-				if(InHeat)
-				{
-					XPos -= 3;
-				}
-				else
-				{
-					XPos -= 1;
-				}
-			}
-			
-			if(!InHeat)
-			{
-				DirChange += 1;
-				if(DirChange >= 60)
-				{
-					double Random = Math.random();
-					if(Random < ChangeChance)
-					{
-						direction = !direction;
-						ChangeChance = 0.10;
-					}
-					else
-					{
-						ChangeChance += 0.10;
-					}
-					DirChange = 0;
-				}
-			}
+
 		}
 		else
 		{
