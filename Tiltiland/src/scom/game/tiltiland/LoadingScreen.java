@@ -28,7 +28,7 @@ public class LoadingScreen extends Screen
 		Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);
 		Assets.animals = g.newPixmap("animals.png", PixmapFormat.ARGB4444);
 		Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
-		Assets.instruction2 = g.newPixmap("instructions2.png", PixmapFormat.ARGB4444);
+		Assets.screens = g.newPixmap("screens.png", PixmapFormat.ARGB4444);
 
 		// loading sound assets
 		Assets.click = game.getAudio().newSound("button.ogg");

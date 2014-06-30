@@ -22,7 +22,8 @@ public class MainMenuScreen extends Screen
 	
 	public void update(float deltaTime)
 	{
-		Assets.playMusic();
+		Assets.playMusic(); // play music if its not playing 
+		
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		

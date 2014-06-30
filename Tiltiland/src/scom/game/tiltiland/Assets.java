@@ -20,8 +20,7 @@ public class Assets
 	public static Pixmap island;
 	
 	// Instruction screen
-	public static Pixmap instruction1;
-	public static Pixmap instruction2;
+	public static Pixmap screens;
 	
 	//Sound
 	public static Sound click;
