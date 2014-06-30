@@ -167,7 +167,7 @@ public class GamePlayScreen extends Screen
 	{
 		// Accelerometer stuff
 		float rotationAmount = 0;
-		rotationAmount += game.getInput().getAccelX() * -1.2; // make variable for power
+		rotationAmount += game.getInput().getAccelX() * -Math.abs(0.5 * game.getInput().getAccelX()); // make variable for power
 		rotationAmount += getWeightDistrubution();
 		
 		island.rotation += rotationAmount;

@@ -22,6 +22,7 @@ public class Time extends Object
 				if(GamePlayScreen.state == GameState.Running)
 				{
 					Zoo.Birthdays();
+					Zoo.AcurateCount();
 					TheTime += 1;
 				}
 			}

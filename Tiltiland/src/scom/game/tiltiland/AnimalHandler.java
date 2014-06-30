@@ -6,7 +6,7 @@ import java.util.Random;
 
 public class AnimalHandler 
 {
-		enum creatures
+	enum creatures
 	{
 		elephant, giraffe, tiger, zebra, snake, gorilla, penguin, bear, sheep, kangaroo
 	}
@@ -77,6 +77,31 @@ public class AnimalHandler
 				break;
 			}
 		}
+	}
+	
+	public void AcurateCount()
+	{
+		int[][] AccuracyCensus = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}; // array of int's for gender amounts of animals  M/F
+		
+		for(int i = 0; i < Types.length; ++i)
+		{
+			for(int j = 0; j < Pen.size(); ++j)
+			{
+				if(Pen.get(j).Type == Types[i])
+				{
+					if(Pen.get(j).Gender == 'm')
+					{
+						AccuracyCensus[i][0] += 1;
+					}
+					else
+					{
+						AccuracyCensus[i][1] += 1;
+					}
+				}
+			}
+		}
+		
+		Census = AccuracyCensus;
 	}
 	
 	public void Birth(creatures type, int x, int y)//handles a request to give birth
