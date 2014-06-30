@@ -4,7 +4,6 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
-
 import android.content.Context;
 
 public class LoadingScreen extends Screen 
@@ -29,11 +28,11 @@ public class LoadingScreen extends Screen
 		Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);
 		Assets.animals = g.newPixmap("animals.png", PixmapFormat.ARGB4444);
 		Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
-		Assets.instruction = g.newPixmap("instructions.png", PixmapFormat.ARGB4444);
+		Assets.instruction2 = g.newPixmap("instructions2.png", PixmapFormat.ARGB4444);
 
 		// loading sound assets
-		Assets.push = game.getAudio().newSound("button.ogg");
-		Assets.song = game.getAudio().newSound("thegreatestandbestsongintheworld.ogg");
+		Assets.click = game.getAudio().newSound("button.ogg");
+		Assets.music = game.getAudio().newMusic("RollinE.ogg");
 		
 		//load font
 		Assets.font = g.newPixmap("Font.png", PixmapFormat.ARGB4444);

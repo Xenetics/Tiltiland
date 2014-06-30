@@ -1,6 +1,7 @@
 package scom.game.tiltiland;
 
 import java.util.List;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
@@ -32,27 +33,19 @@ public class OptionsScreen extends Screen
 					{
 						Settings.MusicEnabled = !Settings.MusicEnabled;
 						Settings.save(game.getFileIO());
-						if(Settings.SFXEnabled)
-						{
-							Assets.push.play(1);
-						}
+						Assets.playMusic();
+						Assets.playSound(Assets.click);
 					}
 					if(inBounds(event, 128, 640, 512, 128)) // SFX slider
 					{
 						Settings.SFXEnabled = !Settings.SFXEnabled;
 						Settings.save(game.getFileIO());
-						if(Settings.SFXEnabled)
-						{
-							Assets.push.play(1);
-						}
+						Assets.playSound(Assets.click);
 					}
 					if(inBounds(event, 256, 832, 256, 128)) // options
 					{
 						backPush = true;
-						if(Settings.SFXEnabled)
-						{
-							Assets.push.play(1);
-						}
+						Assets.playSound(Assets.click);
 					}
 				}
 			}

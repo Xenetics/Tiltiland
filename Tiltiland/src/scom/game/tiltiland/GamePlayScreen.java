@@ -44,7 +44,7 @@ public class GamePlayScreen extends Screen
 	Font Timer;
 	Canvas canvas;
 	
-    // Fonts for Stats draw
+    // Fonts for Stat's draw
     Font StatHead;
     Font Elephants;
     Font Giraffe;
@@ -187,10 +187,7 @@ public class GamePlayScreen extends Screen
 				if(inBounds(event, 32, 864, 128, 128)) // Pause
 				{
 					pausePush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
+					Assets.playSound(Assets.click);
 				}
 			}
 		}
@@ -208,10 +205,6 @@ public class GamePlayScreen extends Screen
 				}
 			}
 		}
-		
-		
-		
-		
 	}
 	
 	private void UpdatePaused(List<TouchEvent> touchEvents)
@@ -228,7 +221,7 @@ public class GamePlayScreen extends Screen
 					resumePush = true; // is button being pushed
 					if(Settings.SFXEnabled)
 					{
-						Assets.push.play(1);
+						Assets.playSound(Assets.click);
 					}
 				}
 				
@@ -237,7 +230,7 @@ public class GamePlayScreen extends Screen
 					quitPush = true; // is button being pushed
 					if(Settings.SFXEnabled)
 					{
-						Assets.push.play(1);
+						Assets.playSound(Assets.click);
 					}
 				}
 			}
@@ -276,10 +269,7 @@ public class GamePlayScreen extends Screen
 				if(inBounds(event, 256, 640, 256, 128)) // Quit
 				{
 					quitPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
+					Assets.playSound(Assets.click);
 				}
 			}
 		}

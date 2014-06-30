@@ -1,6 +1,7 @@
 package scom.game.tiltiland;
 
 import java.util.List;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
@@ -33,10 +34,7 @@ public class InstructionsScreen extends Screen {
 					if(inBounds(event, 256, 832, 256, 128)) // options
 					{
 						backPush = true;
-						if(Settings.SFXEnabled)
-						{
-							Assets.push.play(1);
-						}
+						Assets.playSound(Assets.click);
 					}
 				}
 			}
@@ -60,7 +58,7 @@ public class InstructionsScreen extends Screen {
 	    {
 	    	Graphics g = game.getGraphics();	    	
 	    	
-	    	g.drawPixmap(Assets.instruction, 0, 0);	    	
+	    	g.drawPixmap(Assets.instruction2, 0, 0);	    	
 	    	
 	    	// Buttons
 	    	if(backPush == false)

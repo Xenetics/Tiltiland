@@ -12,7 +12,6 @@ public class MainMenuScreen extends Screen
 	public MainMenuScreen(Game game)
 	{
 		super(game);
-		Assets.song.play(1);
 	}
 	
 	// Booleans for button presses
@@ -23,6 +22,7 @@ public class MainMenuScreen extends Screen
 	
 	public void update(float deltaTime)
 	{
+		Assets.playMusic();
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
@@ -36,37 +36,25 @@ public class MainMenuScreen extends Screen
 				if(inBounds(event, 256, 256, 256, 128)) // play
 				{
 					playPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
+					Assets.playSound(Assets.click);
 				}
 				
 				if(inBounds(event, 256, 448, 256, 128)) // high score
 				{
 					scorePush = true;
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
+					Assets.playSound(Assets.click);
 				}
 				
 				if(inBounds(event, 256, 640, 256, 128)) // instructions
 				{
 					instructPush = true;
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
+					Assets.playSound(Assets.click);
 				}
 				
 				if(inBounds(event, 256, 832, 256, 128)) // options
 				{
 					optionPush = true;
-					if(Settings.SFXEnabled)
-					{
-						Assets.push.play(1);
-					}
+					Assets.playSound(Assets.click);
 				}
 			}
 		}
