@@ -70,6 +70,7 @@ public class LoadingScreen extends Screen
     	
     }
     
+    /*
     private AdView mAdView;
     
     public void Ad(Game game)
@@ -80,4 +81,5 @@ public class LoadingScreen extends Screen
          mAdView.setAdListener(new ToastAdListener(context));
          mAdView.loadAd(new AdRequest.Builder().build());
     }
+    */
 }
