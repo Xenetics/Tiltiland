@@ -1,7 +1,9 @@
 package scom.game.tiltiland;
 
 import java.util.List;
+
 import scom.game.tiltiland.AnimalHandler.creatures;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
@@ -28,6 +30,7 @@ public class GamePlayScreen extends Screen
 		zoo.Score = 0;
 		midPoint =  384;
 		state = GameState.Ready;
+		
 	}
 	
 	// Booleans for button presses

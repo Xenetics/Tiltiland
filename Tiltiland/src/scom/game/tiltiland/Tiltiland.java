@@ -8,7 +8,7 @@ public class Tiltiland extends AndroidGame
 {
 	public Screen getStartScreen()
 	{
-		return new LoadingScreen(this);
+		return new LoadingScreen(this, this);
 	}
 
 }

@@ -3,5 +3,6 @@
 
     <string name="app_name">Tiltiland</string>
     <string name="hello_world">Hello world!</string>
+    <string name="ad_unit_id">INSERT_YOUR_AD_UNIT_ID_HERE</string>
 
 </resources>

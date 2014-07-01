@@ -4,13 +4,19 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
+import com.google.android.gms.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdSize;
+import com.google.android.gms.ads.AdView;
+
 import android.content.Context;
 
 public class LoadingScreen extends Screen 
 {
-	public LoadingScreen(Game game)
+	public LoadingScreen(Game game, Context ctx)
 	{
 		super(game);
+		context = ctx;
 	}
 	
 	Context context;
@@ -62,5 +68,16 @@ public class LoadingScreen extends Screen
     public void dispose()
     {
     	
+    }
+    
+    private AdView mAdView;
+    
+    public void Ad(Game game)
+    {
+         mAdView = new AdView(context);
+         mAdView.setAdUnitId(context.getResources().getString(R.attr.ad_unit_id));
+         mAdView.setAdSize(AdSize.BANNER);
+         mAdView.setAdListener(new ToastAdListener(context));
+         mAdView.loadAd(new AdRequest.Builder().build());
     }
 }
