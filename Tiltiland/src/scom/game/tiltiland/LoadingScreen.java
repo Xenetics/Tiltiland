@@ -49,8 +49,6 @@ public class LoadingScreen extends Screen
 		
 		Settings.load(game.getFileIO()); // loads saved settings file
 		
-		//Ad(game); // Ads
-		
 		game.setScreen(new MainMenuScreen(game)); // creates and sets up main menu
 	}
 	
@@ -73,17 +71,4 @@ public class LoadingScreen extends Screen
     {
     	
     }
-    
-    /*
-    private AdView mAdView;
-    
-    public void Ad(Game game)
-    {
-         mAdView = new AdView(context);
-         mAdView.setAdUnitId(context.getResources().getString(R.string.ad_unit_id));
-         mAdView.setAdSize(AdSize.BANNER);
-         mAdView.setAdListener(new ToastAdListener(context));
-         mAdView.loadAd(new AdRequest.Builder().build());
-    }
-    */
 }

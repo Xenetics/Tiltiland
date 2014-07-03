@@ -33,6 +33,8 @@ public class GamePlayScreen extends Screen
 		
 	}
 	
+	Ad ad; // Ad instance
+	
 	// Booleans for button presses
 	boolean pausePush = false;
 	boolean resumePush = false;
@@ -94,8 +96,8 @@ public class GamePlayScreen extends Screen
 	{
 		if(touchEvents.size() >0)
 		{
-			//use this for intilization?
 			state = GameState.Running;
+			ad = new Ad();
 			timer = new Time(zoo); // creates new timer object
 		}
 	}
@@ -231,10 +233,7 @@ public class GamePlayScreen extends Screen
 				if(inBounds(event, 256, 640, 256, 128)) // Quit
 				{
 					quitPush = true; // is button being pushed
-					if(Settings.SFXEnabled)
-					{
-						Assets.playSound(Assets.click);
-					}
+					Assets.playSound(Assets.click);
 				}
 			}
 		}
