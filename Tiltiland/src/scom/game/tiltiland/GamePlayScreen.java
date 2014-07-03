@@ -97,7 +97,7 @@ public class GamePlayScreen extends Screen
 		if(touchEvents.size() >0)
 		{
 			state = GameState.Running;
-			ad = new Ad();
+			//ad = new Ad(); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			timer = new Time(zoo); // creates new timer object
 		}
 	}
