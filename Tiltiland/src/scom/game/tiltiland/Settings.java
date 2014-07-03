@@ -6,19 +6,22 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import com.badlogic.androidgames.framework.FileIO;
+import android.content.Context;
 
 public class Settings 
 {
+	public final static String file = ".tiltiland";
     public static boolean MusicEnabled = true;
     public static boolean SFXEnabled = true;
     public static int[] highscores = new int[] { 25000, 20000, 15000, 10000, 5000 };
     
+    Context context;
     public static void load(FileIO files) 
     {
         BufferedReader in = null;
         try 
         {
-	        in = new BufferedReader(new InputStreamReader(files.readFile(".tiltiland")));
+	        in = new BufferedReader(new InputStreamReader(files.readFile(file)));
 	        MusicEnabled = Boolean.parseBoolean(in.readLine());
 	        SFXEnabled = Boolean.parseBoolean(in.readLine());
         
@@ -56,29 +59,31 @@ public class Settings
         BufferedWriter out = null;
         try 
         {
-            out = new BufferedWriter(new OutputStreamWriter(files.writeFile("tiltiland")));
+            out = new BufferedWriter(new OutputStreamWriter(files.writeFile(file)));
             out.write(Boolean.toString(MusicEnabled));
+            out.write("\n");
             out.write(Boolean.toString(SFXEnabled));
             
-            for (int i = 0; i < 5; i++) 
-            {
-                out.write(Integer.toString(highscores[i]));
-            }
+	        for (int i = 0; i < 5; i++) 
+	        {
+	        	out.write("\n");
+             	out.write(Integer.toString(highscores[i]));
+	        }
         } 
         catch (IOException e) 
         {
-        	
         } 
         finally 
         {
             try 
             {
                 if (out != null)
+                {
                     out.close();
+                }
             } 
             catch (IOException e) 
             {
-            	
             }
         }
     }

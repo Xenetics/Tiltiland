@@ -287,6 +287,7 @@ public class GamePlayScreen extends Screen
 				{
 					quitPush = false;
 					Settings.addScore(zoo.Score);
+					Settings.save(game.getFileIO());
 					game.setScreen(new MainMenuScreen(game));
 				}
 			}

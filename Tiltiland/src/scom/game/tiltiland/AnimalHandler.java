@@ -87,7 +87,7 @@ public class AnimalHandler
 		{
 			for(int j = 0; j < Pen.size(); ++j)
 			{
-				if(Pen.get(j).Type == Types[i])
+				if(Pen.get(j).Type == Types[i] && Pen.get(j).onGround == true)
 				{
 					if(Pen.get(j).Gender == 'm')
 					{

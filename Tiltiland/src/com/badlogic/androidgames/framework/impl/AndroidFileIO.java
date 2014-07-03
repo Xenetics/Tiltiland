@@ -23,8 +23,7 @@ public class AndroidFileIO implements FileIO {
     public AndroidFileIO(Context context) {
         this.context = context;
         this.assets = context.getAssets();
-        this.externalStoragePath = Environment.getExternalStorageDirectory()
-                .getAbsolutePath() + File.separator;
+        this.externalStoragePath = Environment.getExternalStorageDirectory().getAbsolutePath() + File.separator;
     }
 
     public InputStream readAsset(String fileName) throws IOException {
