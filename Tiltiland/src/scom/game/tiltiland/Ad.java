@@ -14,12 +14,13 @@ import android.widget.RelativeLayout;
 public class Ad extends Activity 
 {
     private AdView mAdView;
-
+    
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_tiltiland);
+        
 
         mAdView = new AdView(this);
         mAdView.setAdUnitId(getResources().getString(R.string.ad_unit_id));

@@ -8,8 +8,12 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
+
 import android.graphics.Canvas;
 import android.graphics.Rect;
+import android.os.Handler;
+import android.os.HandlerThread;
+import android.os.Looper;
 
 public class GamePlayScreen extends Screen
 {
@@ -97,7 +101,6 @@ public class GamePlayScreen extends Screen
 		if(touchEvents.size() >0)
 		{
 			state = GameState.Running;
-			//ad = new Ad(); // <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<
 			timer = new Time(zoo); // creates new timer object
 		}
 	}
