@@ -30,6 +30,16 @@ public class HighscoreScreen extends Screen {
 	
 	public void update(float deltaTime)
 	{
+		Assets.playMusic(); // play music if its not playing 
+		if(Assets.isOn())
+		{
+			Settings.MusicEnabled = true;
+		}
+		else
+		{
+			Settings.MusicEnabled = false;
+		}
+		
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		

@@ -4,13 +4,6 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Graphics.PixmapFormat;
-/*
-import com.game.tiltiland.R;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdSize;
-import com.google.android.gms.ads.AdView;
-*/
-
 import android.content.Context;
 
 public class LoadingScreen extends Screen 
@@ -18,10 +11,7 @@ public class LoadingScreen extends Screen
 	public LoadingScreen(Game game, Context ctx)
 	{
 		super(game);
-		context = ctx;
 	}
-	
-	Context context;
 	
 	public void update(float deltaTime)
 	{

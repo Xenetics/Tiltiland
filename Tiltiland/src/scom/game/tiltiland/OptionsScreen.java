@@ -18,9 +18,20 @@ public class OptionsScreen extends Screen
 		boolean backPush = false;
 		boolean creditsPush = false;
 		boolean creditsShow = false;
+		boolean exitPush = false;
 		
 		public void update(float deltaTime)
 		{
+			Assets.playMusic(); // play music if its not playing 
+			if(Assets.isOn())
+			{
+				Settings.MusicEnabled = true;
+			}
+			else
+			{
+				Settings.MusicEnabled = false;
+			}
+			
 			List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 			game.getInput().getKeyEvents();
 			
@@ -54,10 +65,15 @@ public class OptionsScreen extends Screen
 						}
 					}
 					
-					if(inBounds(event, 256, 832, 256, 128)) // Back
+					if(inBounds(event, 64, 832, 256, 128)) // Back
 					{
 						backPush = true;
 						Assets.playSound(Assets.click);
+					}
+					
+					if(inBounds(event, 448, 832, 256, 128)) // Exit
+					{
+						exitPush = true;
 					}
 				}
 			}
@@ -68,17 +84,27 @@ public class OptionsScreen extends Screen
 				if(event.type == TouchEvent.TOUCH_UP)
 				{
 					//all if's for buttons
-					if(inBounds(event, 256, 832, 256, 128)) // Back
+					if(!creditsShow)
+					{
+						if(inBounds(event, 256, 640, 256, 128)) // Credits button
+						{
+							creditsPush = false;
+							creditsShow = true;
+						}
+					}
+					
+					if(inBounds(event, 64, 832, 256, 128)) // Back
 					{
 						backPush = false;
 						Settings.save(game.getFileIO());
 						game.setScreen(new MainMenuScreen(game));
 					}
 					
-					if(inBounds(event, 256, 640, 256, 128)) // Credits button
+					if(inBounds(event, 448, 832, 256, 128)) // Exit
 					{
-						creditsPush = false;
-						creditsShow = true;
+						exitPush = false;
+						Settings.save(game.getFileIO());
+						System.exit(0);
 					}
 				}
 			}
@@ -134,11 +160,20 @@ public class OptionsScreen extends Screen
 	    	// Buttons
 	    	if(backPush == false)
 	    	{
-	    		g.drawPixmap(Assets.buttons, 256, 832, 0, 512, 256, 128); // BackB
+	    		g.drawPixmap(Assets.buttons, 64, 832, 0, 512, 256, 128); // BackB
 	    	}
 	    	else
 	    	{
-	    		g.drawPixmap(Assets.buttons, 256, 832, 256, 512, 256, 128); // BackBD
+	    		g.drawPixmap(Assets.buttons, 64, 832, 256, 512, 256, 128); // BackBD
+	    	}
+	    	
+	    	if(exitPush == false)
+	    	{
+	    		g.drawPixmap(Assets.buttons, 448, 832, 0, 1920, 256, 128); // ExitB
+	    	}
+	    	else
+	    	{
+	    		g.drawPixmap(Assets.buttons, 448, 832, 256, 1920, 256, 128); // ExitBD
 	    	}
 	    }
 

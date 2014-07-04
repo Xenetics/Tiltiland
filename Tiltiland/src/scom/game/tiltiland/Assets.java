@@ -1,6 +1,9 @@
 package scom.game.tiltiland;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.os.PowerManager;
+
 import com.badlogic.androidgames.framework.Pixmap;
 import com.badlogic.androidgames.framework.Sound;
 import com.badlogic.androidgames.framework.Music;
@@ -30,7 +33,8 @@ public class Assets
 	public static Pixmap font;
 	public static Bitmap fontBitmap;
 	
-	
+	public static PowerManager PowMan;
+
     public static void playMusic() 
     {
         if(Settings.MusicEnabled)
@@ -48,9 +52,14 @@ public class Assets
 
     public static void playSound(Sound sound) 
     {
-        if(Settings.SFXEnabled)
+        if(Settings.SFXEnabled && isOn())
         {
             sound.play(1);
         }
+    }
+    
+    public static boolean isOn()
+    {
+    	return Assets.PowMan.isScreenOn();
     }
 }

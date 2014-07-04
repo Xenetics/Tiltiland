@@ -1,5 +1,8 @@
 package scom.game.tiltiland;
 
+import android.content.Context;
+import android.os.PowerManager;
+
 import com.badlogic.androidgames.framework.impl.AndroidGame;
 import com.badlogic.androidgames.framework.Screen;
 
@@ -7,7 +10,13 @@ public class Tiltiland extends AndroidGame
 {
 	public Screen getStartScreen()
 	{
+		MakePowMan();
 		return new LoadingScreen(this, this);
+	}
+	
+	public void MakePowMan() 
+	{
+		  Assets.PowMan = (PowerManager) getSystemService(Context.POWER_SERVICE);
 	}
 	
 	/*

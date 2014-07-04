@@ -14,6 +14,7 @@ import android.graphics.Rect;
 import android.os.Handler;
 import android.os.HandlerThread;
 import android.os.Looper;
+import android.os.PowerManager.WakeLock;
 
 public class GamePlayScreen extends Screen
 {
@@ -34,7 +35,14 @@ public class GamePlayScreen extends Screen
 		zoo.Score = 0;
 		midPoint =  384;
 		state = GameState.Ready;
-		
+		if(Settings.MusicEnabled || Settings.SFXEnabled)
+		{
+			mute = false;
+		}
+		else
+		{
+			mute = true;
+		}
 	}
 	
 	Ad ad; // Ad instance
@@ -44,6 +52,8 @@ public class GamePlayScreen extends Screen
 	boolean resumePush = false;
 	boolean quitPush = false;
 	boolean replayPush = false;
+	boolean mutePush = false;
+	boolean mute;
 	
 	// Objects game has
 	Island island; 
@@ -75,6 +85,16 @@ public class GamePlayScreen extends Screen
     
 	public void update(float deltaTime)
 	{
+		Assets.playMusic(); // play music if its not playing 
+		if(Assets.isOn())
+		{
+			Settings.MusicEnabled = true;
+		}
+		else
+		{
+			Settings.MusicEnabled = false;
+		}
+		
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
 		game.getInput().getKeyEvents();
 		
@@ -179,11 +199,12 @@ public class GamePlayScreen extends Screen
 		rotationAmount += getWeightDistrubution();
 		
 		island.rotation += rotationAmount;
+		/*
 		if( island.rotation > 50 || island.rotation < -50 )
 		{
 			island.rotation = 50;
 		}
-		
+		*/
 		canvas.rotate(rotationAmount, canvas.getWidth()*0.5f, canvas.getHeight()*0.5f);
 		
 		CheckDrown();
@@ -202,6 +223,12 @@ public class GamePlayScreen extends Screen
 					pausePush = true; // is button being pushed
 					Assets.playSound(Assets.click);
 				}
+				
+				if(inBounds(event, 608, 864, 128, 128)) // Mute
+				{
+					mutePush = !mutePush;
+					Assets.playSound(Assets.click);
+				}
 			}
 		}
 		
@@ -215,6 +242,15 @@ public class GamePlayScreen extends Screen
 				{
 					state = GameState.Paused;
 					pausePush = false;
+				}
+				
+				if(inBounds(event, 608, 864, 128, 128)) /// Mute D
+				{
+					mutePush = !mutePush;
+					Settings.MusicEnabled = !Settings.MusicEnabled;
+					Assets.playMusic();
+					Settings.SFXEnabled = !Settings.SFXEnabled;
+					mute = !mute;
 				}
 			}
 		}
@@ -300,7 +336,6 @@ public class GamePlayScreen extends Screen
 			}
 		}
 	}
-	
     public void present(float deltaTime)
     {
     	DrawWorld(); // draws background and world
@@ -364,11 +399,34 @@ public class GamePlayScreen extends Screen
     	// Buttons
     	if(pausePush == false)
     	{
-    		g.drawPixmap(Assets.buttons, 32, 864, 0, 1024, 128, 128); // pauseB
+    		g.drawPixmap(Assets.buttons, 32, 864, 0, 1024, 128, 128); // PauseB
     	}
     	else
     	{
     		g.drawPixmap(Assets.buttons, 32, 864, 128, 1024, 128, 128); // PauseBD
+    	}
+    	
+    	if(!mute)
+    	{
+	    	if(!mutePush)
+	    	{
+	    		g.drawPixmap(Assets.buttons, 608, 864, 0, 1792, 128, 128); // MuteB
+	    	}
+	    	else
+	    	{
+	    		g.drawPixmap(Assets.buttons, 608, 864, 128, 1792, 128, 128); // MuteBD
+	    	}
+    	}
+    	else
+    	{
+    		if(!mutePush)
+	    	{
+	    		g.drawPixmap(Assets.buttons, 608, 864, 256, 1792, 128, 128); // MuteB
+	    	}
+	    	else
+	    	{
+	    		g.drawPixmap(Assets.buttons, 608, 864, 384, 1792, 128, 128); // MuteBD
+	    	}
     	}
     }
     
@@ -457,17 +515,17 @@ public class GamePlayScreen extends Screen
 
     private void DrawStats()
     {
-    	g.drawPixmap(Assets.stats, 192, 704, 0, 0, 478, 163);
-    	Elephants = new Font(game, zoo.Census[0][0] + " : " + zoo.Census[0][1], 354, 732, 0.31f);
-    	Giraffe = new Font(game, zoo.Census[1][0] + " : " + zoo.Census[1][1], 354, 760, 0.31f);
-    	Tiger = new Font(game, zoo.Census[2][0] + " : " + zoo.Census[2][1], 354, 788, 0.31f);
-    	Zebra = new Font(game, zoo.Census[3][0] + " : " + zoo.Census[3][1], 354, 816, 0.31f);
-    	Snake = new Font(game, zoo.Census[4][0] + " : " + zoo.Census[4][1], 354, 845, 0.31f);
-    	Gorilla = new Font(game, zoo.Census[5][0] + " : " + zoo.Census[5][1], 637, 732, 0.31f);
-    	Penguin = new Font(game, zoo.Census[6][0] + " : " + zoo.Census[6][1], 637, 760, 0.31f);
-    	Bear = new Font(game, zoo.Census[7][0] + " : " + zoo.Census[7][1], 637, 788, 0.31f);
-    	Sheep = new Font(game, zoo.Census[8][0] + " : " + zoo.Census[8][1], 637, 816, 0.31f);
-    	Kangaroo = new Font(game, zoo.Census[9][0] + " : " + zoo.Census[9][1], 637, 845, 0.31f);
+    	g.drawPixmap(Assets.stats, 128, 640, 0, 0, 478, 163);
+    	Elephants = new Font(game, zoo.Census[0][0] + " : " + zoo.Census[0][1], 290, 668, 0.31f);
+    	Giraffe = new Font(game, zoo.Census[1][0] + " : " + zoo.Census[1][1], 290, 696, 0.31f);
+    	Tiger = new Font(game, zoo.Census[2][0] + " : " + zoo.Census[2][1], 290, 724, 0.31f);
+    	Zebra = new Font(game, zoo.Census[3][0] + " : " + zoo.Census[3][1], 290, 752, 0.31f);
+    	Snake = new Font(game, zoo.Census[4][0] + " : " + zoo.Census[4][1], 290, 781, 0.31f);
+    	Gorilla = new Font(game, zoo.Census[5][0] + " : " + zoo.Census[5][1], 573, 668, 0.31f);
+    	Penguin = new Font(game, zoo.Census[6][0] + " : " + zoo.Census[6][1], 573, 696, 0.31f);
+    	Bear = new Font(game, zoo.Census[7][0] + " : " + zoo.Census[7][1], 573, 724, 0.31f);
+    	Sheep = new Font(game, zoo.Census[8][0] + " : " + zoo.Census[8][1], 573, 752, 0.31f);
+    	Kangaroo = new Font(game, zoo.Census[9][0] + " : " + zoo.Census[9][1], 573, 781, 0.31f);
     }
     
     private void MoveAnimals()
