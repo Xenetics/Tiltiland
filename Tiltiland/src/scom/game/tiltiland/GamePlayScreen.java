@@ -179,6 +179,11 @@ public class GamePlayScreen extends Screen
 		rotationAmount += getWeightDistrubution();
 		
 		island.rotation += rotationAmount;
+		if( island.rotation > 50 || island.rotation < -50 )
+		{
+			island.rotation = 50;
+		}
+		
 		canvas.rotate(rotationAmount, canvas.getWidth()*0.5f, canvas.getHeight()*0.5f);
 		
 		CheckDrown();
