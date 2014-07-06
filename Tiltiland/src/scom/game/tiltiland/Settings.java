@@ -13,6 +13,8 @@ public class Settings
 	public final static String file = ".tiltiland";
     public static boolean MusicEnabled = true;
     public static boolean SFXEnabled = true;
+    public static boolean Music = true;
+    public static boolean IntroPlayed = false;
     public static int[] highscores = new int[] { 25000, 20000, 15000, 10000, 5000 };
     
     Context context;
@@ -24,6 +26,7 @@ public class Settings
 	        in = new BufferedReader(new InputStreamReader(files.readFile(file)));
 	        MusicEnabled = Boolean.parseBoolean(in.readLine());
 	        SFXEnabled = Boolean.parseBoolean(in.readLine());
+	        Music = Boolean.parseBoolean(in.readLine());
         
 	        for (int i = 0; i < 5; i++) 
 	        {
@@ -63,6 +66,8 @@ public class Settings
             out.write(Boolean.toString(MusicEnabled));
             out.write("\n");
             out.write(Boolean.toString(SFXEnabled));
+            out.write("\n");
+            out.write(Boolean.toString(Music));
             
 	        for (int i = 0; i < 5; i++) 
 	        {

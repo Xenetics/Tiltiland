@@ -1,6 +1,7 @@
 package scom.game.tiltiland;
 
 import scom.game.tiltiland.AnimalHandler.creatures;
+
 import java.util.Random;
 
 public class Animal 
@@ -20,33 +21,38 @@ public class Animal
 		onGround = true;
 		Randoms(); // determines starting
 		chosen = false;
-		InHeat = false;
+		state = AnimalState.Normal;
 	}
 	
-	public int XPos; // animals POS in x
-	public int YPos; // animals POS in y
+	enum AnimalState //state machine
+    {
+        Normal, InHeat, Panic
+    }
+	    
+    public AnimalState state;
+    
+    // Attributes
+	private int XPos; // animals POS in x
+	private int YPos; // animals POS in y
+	private creatures Type; // what kind of animal. eg. elephant, penguin, or bear
+	private int Weight; // how much animal weighs and also how much score its worth
+	private char Gender;
+	private int ID;
+	private boolean onGround;
 	
-	// Attributes: probably make all private then make getters
-	public creatures Type; // what kind of animal. eg. elephant, penguin, or bear
-	public int Weight; // how much animal weighs and also how much score its worth
-	public char Gender;
-	public int ID;
-	public boolean onGround;
+	private int Age; // how old the animal is in seconds
+	private int MaxAge; // how old they will live to
 	
-	public int Age; // how old the animal is in seconds
-	public int MaxAge; // how old they will live to
-	
-	public int SpriteX; // X POS on sprite sheet
-	public int Width; // sprite width
-	public int Height; // sprite height
+	private int SpriteX; // X POS on sprite sheet
+	private int Width; // sprite width
+	private int Height; // sprite height
 	
 	private int fertile; 
-	private boolean InHeat;
 	private boolean direction; // what direction they are traveling. true = right, false = left
 	private int DirChange; // count for change direction
 	private double ChangeChance; // % chance for the animal to change direction ever second
-	int mateID; // save mate that was chosen
-	public boolean chosen;
+	private int mateID; // save mate that was chosen
+	private boolean chosen;
 	
 	private void Randoms()
 	{
@@ -94,10 +100,10 @@ public class Animal
 		{
 			if(fertile == 10)
 			{
-				InHeat = true;
+				state = AnimalState.InHeat;
 			}
 			
-			if(!InHeat)
+			if(state != AnimalState.InHeat)
 			{
 				fertile += 1;
 			}
@@ -117,7 +123,7 @@ public class Animal
 				}
 			}
 			
-			if (chosen == false && InHeat == true) // every 10 seconds will choose mate if in heat
+			if (chosen == false && state == AnimalState.InHeat) // every 10 seconds will choose mate if in heat
 			{
 				mateID = zoo.ChooseMate(this);
 				if(mateID != -1)
@@ -144,17 +150,17 @@ public class Animal
 			{
 				if(Gender == 'f')
 				{
-					if(InHeat == true && chosen == true && (XPos - 2 <= GetMatePos(zoo) && XPos + 2 >= GetMatePos(zoo)) && onGround == true) // birth when at mate
+					if(state == AnimalState.InHeat && chosen == true && (XPos - 2 <= GetMatePos(zoo) && XPos + 2 >= GetMatePos(zoo)) && onGround == true) // birth when at mate
 					{
 						zoo.Birth(Type, XPos, YPos);
 						fertile = 0;
-						InHeat = false;
+						state = AnimalState.Normal;
 						chosen = false;
 						mateID = -1;
 						direction = !direction;
 					}
 					
-					if(InHeat == true) // move to mate
+					if(state == AnimalState.InHeat) // move to mate
 					{
 						if(XPos < GetMatePos(zoo))
 						{
@@ -167,7 +173,7 @@ public class Animal
 					}
 				}
 				
-				if(!InHeat) // Random Wander with critical mass
+				if(state != AnimalState.InHeat) // Random Wander with critical mass
 				{
 					DirChange += 1;
 					if(DirChange >= 60)
@@ -188,7 +194,7 @@ public class Animal
 				
 				if(direction == true) // move based on direction
 				{
-					if(InHeat)
+					if(state == AnimalState.InHeat)
 					{
 						XPos += 3;
 					}
@@ -199,7 +205,7 @@ public class Animal
 				}
 				else
 				{
-					if(InHeat)
+					if(state == AnimalState.InHeat)
 					{
 						XPos -= 3;
 					}
@@ -235,5 +241,70 @@ public class Animal
 				YPos += 2;
 			}
 		}
+	}
+	
+	// Getters
+	public int GetXPos()
+	{
+		return XPos;
+	}
+	public int GetYPos()
+	{
+		return YPos;
+	}
+	public creatures GetType()
+	{
+		return Type;
+	}
+	public int GetWeight()
+	{
+		return Weight;
+	}
+	public char GetGender()
+	{
+		return Gender;
+	}
+	public int GetID()
+	{
+		return ID;
+	}
+	public boolean GetOnGround()
+	{
+		return onGround;
+	}
+	public int GetAge()
+	{
+		return Age;
+	}
+	
+	public int GetMaxAge()
+	{
+		return MaxAge;
+	}
+	
+	public int GetSpriteX()
+	{
+		return SpriteX;
+	}
+	
+	public int GetWidth()
+	{
+		return Width;
+	}
+	
+	public int GetHeight()
+	{
+		return Height;
+	}
+	
+	// Setters
+	
+	public void SetOnGround(boolean set)
+	{
+		onGround = set;
+	}
+	public void SetYPos(int set)
+	{
+		YPos = set;
 	}
 }

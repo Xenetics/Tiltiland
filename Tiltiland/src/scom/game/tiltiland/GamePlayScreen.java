@@ -8,13 +8,8 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
-
 import android.graphics.Canvas;
 import android.graphics.Rect;
-import android.os.Handler;
-import android.os.HandlerThread;
-import android.os.Looper;
-import android.os.PowerManager.WakeLock;
 
 public class GamePlayScreen extends Screen
 {
@@ -32,7 +27,7 @@ public class GamePlayScreen extends Screen
 		canvas = new Canvas(g.getFrameBuffer());
 		island = new Island(133, 384);
 		zoo = island.zoo;
-		zoo.Score = 0;
+		zoo.SetScore(0);
 		midPoint =  384;
 		state = GameState.Ready;
 		if(Settings.MusicEnabled || Settings.SFXEnabled)
@@ -88,11 +83,11 @@ public class GamePlayScreen extends Screen
 		Assets.playMusic(); // play music if its not playing 
 		if(Assets.isOn())
 		{
-			Settings.MusicEnabled = true;
+			Settings.Music = true;
 		}
 		else
 		{
-			Settings.MusicEnabled = false;
+			Settings.Music = false;
 		}
 		
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
@@ -132,18 +127,18 @@ public class GamePlayScreen extends Screen
 		
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		if(zoo.Pen.get(i).onGround)
+    		if(zoo.Pen.get(i).GetOnGround())
     		{
-				int x = zoo.Pen.get(i).XPos;
+				int x = zoo.Pen.get(i).GetXPos();
 	    		if(x > midPoint)
 	    		{	
 	    			//right
-	    			right += zoo.Pen.get(i).Weight * -(midPoint - x) * 0.000025 ;
+	    			right += zoo.Pen.get(i).GetWeight() * -(midPoint - x) * 0.000025 ;
 	    		}
 	    		else
 	    		{
 	    			//left
-	    			left += zoo.Pen.get(i).Weight * (midPoint - x) * 0.000025 ;
+	    			left += zoo.Pen.get(i).GetWeight() * (midPoint - x) * 0.000025 ;
 	    		}
     		}
     	}
@@ -155,36 +150,36 @@ public class GamePlayScreen extends Screen
 	{
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		if(zoo.Pen.get(i).onGround)
+    		if(zoo.Pen.get(i).GetOnGround())
     		{
-    			if(zoo.Pen.get(i).XPos < midPoint)
+    			if(zoo.Pen.get(i).GetXPos() < midPoint)
     			{
-		    		int x = zoo.Pen.get(i).XPos;
+		    		int x = zoo.Pen.get(i).GetXPos();
 		    		
 		    		double globalY =  Math.abs((midPoint - x)) * Math.tan(Math.toRadians(island.rotation));
 		    		
 		    		if (globalY < -128)
 		    		{
-		    			zoo.Pen.get(i).onGround = false;
-		    			zoo.TakeCensus(zoo.Pen.get(i).Type, zoo.Pen.get(i).Gender, false);
-		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
+		    			zoo.Pen.get(i).SetOnGround(false);
+		    			zoo.TakeCensus(zoo.Pen.get(i).GetType(), zoo.Pen.get(i).GetGender(), false);
+		    			zoo.Pen.get(i).SetYPos((int) Math.round(globalY + 512 + 128));
 		    		}
     			}
     			else
     			{
-		    		int x = zoo.Pen.get(i).XPos;
+		    		int x = zoo.Pen.get(i).GetXPos();
 		    		
 		    		double globalY =  Math.abs((midPoint - x)) * -Math.tan(Math.toRadians(island.rotation));
 		    		
 		    		if (globalY < -128)
 		    		{
-		    			zoo.Pen.get(i).onGround = false;
-		    			zoo.TakeCensus(zoo.Pen.get(i).Type, zoo.Pen.get(i).Gender, false);
-		    			zoo.Pen.get(i).YPos = (int) Math.round(globalY + 512 + 128);
+		    			zoo.Pen.get(i).SetOnGround(false);
+		    			zoo.TakeCensus(zoo.Pen.get(i).GetType(), zoo.Pen.get(i).GetGender(), false);
+		    			zoo.Pen.get(i).SetYPos((int) Math.round(globalY + 512 + 128));
 		    		}
     			}
     		}
-    		else if (zoo.Pen.get(i).YPos > g.getHeight())
+    		else if (zoo.Pen.get(i).GetYPos() > g.getHeight())
     		{
     			zoo.Murder(i);
     		}
@@ -329,7 +324,7 @@ public class GamePlayScreen extends Screen
 				if(inBounds(event, 256, 640, 256, 128)) // Quit
 				{
 					quitPush = false;
-					Settings.addScore(zoo.Score);
+					Settings.addScore(zoo.GetScore());
 					Settings.save(game.getFileIO());
 					game.setScreen(new MainMenuScreen(game));
 				}
@@ -377,21 +372,21 @@ public class GamePlayScreen extends Screen
     
     private void DrawWorld()
     {
-    	g.drawPixmap(Assets.background, 0, 0);
+    	g.drawPixmap(Assets.layers, 0, 0, 0, 0, 768, 1024); // Background
     	//draw canvas in here 
     	canvas.drawBitmap(Assets.island.getBitmap() , island.XPos, island.YPos, null);
-    	g.drawPixmap(Assets.foreWater, 0, 0);
+    	g.drawPixmap(Assets.layers, 0, 0, 768, 0, 768, 1024); // ForeWater
     }
     
     private void DrawReadyUI()
     {
-    	g.drawPixmap(Assets.shroud, 0, 0, 768, 1024, 768, 320);
+    	g.drawPixmap(Assets.layers, 0, 0, 1536, 0, 768, 1024); // Shroud
     	g.drawPixmap(Assets.title, 0, 0, 0, 320, 768, 320);
     }
     
     private void DrawGameUI()
     {    	
-    	points = new Font(game, zoo.Score, 32, 32, 1);
+    	points = new Font(game, zoo.GetScore(), 32, 32, 1);
     	Timer = new Font(game, timer.TheTime, 544, 32, 1);
     	
     	DrawStats();
@@ -432,7 +427,7 @@ public class GamePlayScreen extends Screen
     
     private void DrawPausedUI()
     {
-    	g.drawPixmap(Assets.shroud, 0, 0, 0, 0, 768, 1024);
+    	g.drawPixmap(Assets.layers, 0, 0, 1536, 0, 768, 1024); // Shroud
     	g.drawPixmap(Assets.title, 0, 0, 768, 320, 768, 320);
     	
     	// Buttons
@@ -457,9 +452,9 @@ public class GamePlayScreen extends Screen
     
     private void DrawGameOverUI()
     {
-    	g.drawPixmap(Assets.shroud, 0, 0, 0, 0, 768, 1024);
+    	g.drawPixmap(Assets.layers, 0, 0, 1536, 0, 768, 1024); // Shroud
     	g.drawPixmap(Assets.title, 0, 0, 1536, 320, 768, 540);
-    	points = new Font(game, zoo.Score, 128, 340, 1);
+    	points = new Font(game, zoo.GetScore(), 128, 340, 1);
     	points = new Font(game, Settings.highscores[0], 128, 540, 1);
     	
     	// Buttons
@@ -479,17 +474,17 @@ public class GamePlayScreen extends Screen
     	{
 	    	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
 	    	{
-	    		if(zoo.Pen.get(i).Type == drawOrder[t])
+	    		if(zoo.Pen.get(i).GetType() == drawOrder[t])
 	    		{
-	    			if(zoo.Pen.get(i).onGround)
+	    			if(zoo.Pen.get(i).GetOnGround())
 	    			{
 		    			// This can be cleaned up
-		    			int x = zoo.Pen.get(i).XPos;
-		    			int y = zoo.Pen.get(i).YPos;
-		    			int srcX = zoo.Pen.get(i).SpriteX;
+		    			int x = zoo.Pen.get(i).GetXPos();
+		    			int y = zoo.Pen.get(i).GetYPos();
+		    			int srcX = zoo.Pen.get(i).GetSpriteX();
 		    			int srcY = 0;
-		    			int srcWidth = zoo.Pen.get(i).Width;
-		    			int srcHeight = zoo.Pen.get(i).Height;
+		    			int srcWidth = zoo.Pen.get(i).GetWidth();
+		    			int srcHeight = zoo.Pen.get(i).GetHeight();
 		    			
 		    	        srcRect.left = srcX;
 		    	        srcRect.top = srcY;
@@ -505,7 +500,7 @@ public class GamePlayScreen extends Screen
 		    		}
 	    			else 
 	    			{
-	    				g.drawPixmap(Assets.animals, zoo.Pen.get(i).XPos, zoo.Pen.get(i).YPos, zoo.Pen.get(i).SpriteX, 0, zoo.Pen.get(i).Width, zoo.Pen.get(i).Height);
+	    				g.drawPixmap(Assets.animals, zoo.Pen.get(i).GetXPos(), zoo.Pen.get(i).GetYPos(), zoo.Pen.get(i).GetSpriteX(), 0, zoo.Pen.get(i).GetWidth(), zoo.Pen.get(i).GetHeight());
 	    				
 	    			}
 	    		}
@@ -541,7 +536,7 @@ public class GamePlayScreen extends Screen
     	int count = 0;
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
-    		if(!zoo.Pen.get(i).onGround)
+    		if(!zoo.Pen.get(i).GetOnGround())
     		{
     			count++;
     		}

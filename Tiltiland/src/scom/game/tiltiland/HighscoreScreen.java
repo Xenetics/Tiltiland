@@ -33,11 +33,11 @@ public class HighscoreScreen extends Screen {
 		Assets.playMusic(); // play music if its not playing 
 		if(Assets.isOn())
 		{
-			Settings.MusicEnabled = true;
+			Settings.Music = true;
 		}
 		else
 		{
-			Settings.MusicEnabled = false;
+			Settings.Music = false;
 		}
 		
 		List < TouchEvent > touchEvents = game.getInput().getTouchEvents();
@@ -77,9 +77,9 @@ public class HighscoreScreen extends Screen {
     {
     	Graphics g = game.getGraphics();	    	
     	
-    	g.drawPixmap(Assets.background, 0, 0);
+    	g.drawPixmap(Assets.layers, 0, 0, 0, 0, 768, 1024); // Background
     	g.drawPixmap(Assets.island, 133, 384);
-    	g.drawPixmap(Assets.foreWater, 0, 0);
+    	g.drawPixmap(Assets.layers, 0, 0, 768, 0, 768, 1024); // ForeWater;
     	g.drawPixmap(Assets.title, 0, 0, 1536, 0, 768, 320);
     	
     	score1 = new Font(game, "1. " + Settings.highscores[0], 128, 256, 1);

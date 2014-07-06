@@ -11,9 +11,9 @@ public class AnimalHandler
 		elephant, giraffe, tiger, zebra, snake, gorilla, penguin, bear, sheep, kangaroo
 	}
 	
-	public int UniqueID;
+	private int UniqueID;
 	private char Gender;
-	public int Score;
+	private int Score;
 	
 	public AnimalHandler()
 	{
@@ -27,7 +27,7 @@ public class AnimalHandler
 	}
 	
 	public creatures[] Types = { creatures.elephant, creatures.giraffe, creatures.tiger, creatures.zebra, creatures.snake, creatures.gorilla, creatures.penguin, creatures.bear, creatures.sheep, creatures.kangaroo }; // animal type
-	public int[][] Sprites = { {0,8,8,382}, {9,3,11,384}, {12,7,3,386}, {19,7,3,388}, {26,12,2,390}, {38,5,5,392}, {43,3,3,394}, {46,8,4,396}, {54,4,3,398}, {58,3,4,400}}; // sprite sheet XPOS,Width,Height
+	private int[][] Sprites = { {0,8,8,382}, {9,3,11,384}, {12,7,3,386}, {19,7,3,388}, {26,12,2,390}, {38,5,5,392}, {43,3,3,394}, {46,8,4,396}, {54,4,3,398}, {58,3,4,400}}; // sprite sheet XPOS,Width,Height
 	
 	public List<Animal> Pen = new ArrayList<Animal>();
 	public int[][] Census = {{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0},{0,0}}; // array of ints for gender amounts of animals  M/F
@@ -87,9 +87,9 @@ public class AnimalHandler
 		{
 			for(int j = 0; j < Pen.size(); ++j)
 			{
-				if(Pen.get(j).Type == Types[i] && Pen.get(j).onGround == true)
+				if(Pen.get(j).GetType() == Types[i] && Pen.get(j).GetOnGround() == true)
 				{
-					if(Pen.get(j).Gender == 'm')
+					if(Pen.get(j).GetGender() == 'm')
 					{
 						AccuracyCensus[i][0] += 1;
 					}
@@ -143,18 +143,18 @@ public class AnimalHandler
 		
 		for(int i = 0 ; i < Pen.size(); ++i)
 		{
-			if(Pen.get(i).Type == mate.Type && Pen.get(i).Gender == 'm' && Pen.get(i).onGround == true)
+			if(Pen.get(i).GetType() == mate.GetType() && Pen.get(i).GetGender() == 'm' && Pen.get(i).GetOnGround() == true)
 			{
 				if(id == -1)
 				{
 					temp = Pen.get(i);
-					id = temp.ID;
+					id = temp.GetID();
 				}
 				
-				if(Math.abs(Pen.get(i).XPos - mate.XPos) < Math.abs(temp.XPos - mate.XPos))
+				if(Math.abs(Pen.get(i).GetXPos() - mate.GetXPos()) < Math.abs(temp.GetXPos() - mate.GetXPos()))
 				{
 					temp = Pen.get(i);
-					id = Pen.get(i).ID;
+					id = Pen.get(i).GetID();
 				}
 			}
 		}
@@ -180,10 +180,10 @@ public class AnimalHandler
 	{
 		for(int i = 0; i < Pen.size() ; ++i)
 		{
-			if(Pen.get(i).Age >= Pen.get(i).MaxAge)
+			if(Pen.get(i).GetAge() >= Pen.get(i).GetMaxAge())
 			{
-				TakeCensus(Pen.get(i).Type, Pen.get(i).Gender, false);
-				Score = Score + Pen.get(i).Weight;
+				TakeCensus(Pen.get(i).GetType(), Pen.get(i).GetGender(), false);
+				Score = Score + Pen.get(i).GetWeight();
 				Pen.remove(i);
 			}
 		}
@@ -223,5 +223,17 @@ public class AnimalHandler
 				break;
 			}
 		}
+	}
+	
+	// Getters
+	public int GetScore()
+	{
+		return Score;
+	}
+	
+	// Setters
+	public void SetScore(int set)
+	{
+		Score = set;
 	}
 }
