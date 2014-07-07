@@ -13,11 +13,13 @@ public class Assets
 	public static Pixmap layers;
 	public static Pixmap title;
 	public static Pixmap stats;
+	public static Pixmap messages;
 	public static Pixmap buttons;
 	
 	public static Pixmap animals;
 	
 	public static Pixmap island;
+	public static Pixmap cloud;
 	
 	// Instruction screen
 	public static Pixmap screens;
@@ -34,7 +36,7 @@ public class Assets
 
     public static void playMusic() 
     {
-        if(Settings.MusicEnabled)
+        if(Settings.MusicEnabled && Settings.Music)
         {
         	music.play();
         	music.setLooping(true);
@@ -44,12 +46,11 @@ public class Assets
         	music.stop();
         	music.setLooping(false);
         }
-            
     }
 
     public static void playSound(Sound sound) 
     {
-        if(Settings.SFXEnabled && Settings.Music)
+        if(Settings.SFXEnabled)
         {
             sound.play(1);
         }

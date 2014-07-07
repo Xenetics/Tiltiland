@@ -24,12 +24,12 @@ public class Animal
 		state = AnimalState.Normal;
 	}
 	
-	enum AnimalState //state machine
+	private enum AnimalState //state machine
     {
         Normal, InHeat, Panic
     }
 	    
-    public AnimalState state;
+    private AnimalState state;
     
     // Attributes
 	private int XPos; // animals POS in x
@@ -67,8 +67,8 @@ public class Animal
 		}
 		
 		Random generator = new Random();
-		int Random2 = generator.nextInt(120 - 90) + 90;
-		MaxAge = Random2; // make random between 90 and 120
+		int Random2 = generator.nextInt(80 - 50) + 50;
+		MaxAge = Random2; // make random between 50 and 80
 		
 		Random generator2 = new Random();
 		int Random3 = generator2.nextInt(7 - 2) + 2;
@@ -101,6 +101,7 @@ public class Animal
 			if(fertile == 10)
 			{
 				state = AnimalState.InHeat;
+				fertile = 0;
 			}
 			
 			if(state != AnimalState.InHeat)
@@ -133,7 +134,7 @@ public class Animal
 			}
 		}
 	}
-		
+	private AnimalState ReserveState;
 	public void Move(AnimalHandler zoo, Double tilt) // makes animals walk back and forth
 	{
 		if(onGround)
@@ -148,12 +149,21 @@ public class Animal
 			}
 			else
 			{
+				if(zoo.Pen.size() >= zoo.GetCap())
+				{
+					ReserveState = state;
+					state = AnimalState.Panic;
+				}
+				else if(zoo.Pen.size() <= zoo.GetCap() && state == AnimalState.Panic)
+				{
+					state = ReserveState;
+				}
+				
 				if(Gender == 'f')
 				{
 					if(state == AnimalState.InHeat && chosen == true && (XPos - 2 <= GetMatePos(zoo) && XPos + 2 >= GetMatePos(zoo)) && onGround == true) // birth when at mate
 					{
 						zoo.Birth(Type, XPos, YPos);
-						fertile = 0;
 						state = AnimalState.Normal;
 						chosen = false;
 						mateID = -1;
@@ -198,6 +208,10 @@ public class Animal
 					{
 						XPos += 3;
 					}
+					else if(state == AnimalState.Panic)
+					{
+						XPos += 2;
+					}
 					else
 					{
 						XPos += 1;
@@ -208,6 +222,10 @@ public class Animal
 					if(state == AnimalState.InHeat)
 					{
 						XPos -= 3;
+					}
+					else if(state == AnimalState.Panic)
+					{
+						XPos -= 2;
 					}
 					else
 					{

@@ -14,6 +14,7 @@ public class AnimalHandler
 	private int UniqueID;
 	private char Gender;
 	private int Score;
+	private int Cap = 1000;
 	
 	public AnimalHandler()
 	{
@@ -229,6 +230,10 @@ public class AnimalHandler
 	public int GetScore()
 	{
 		return Score;
+	}
+	public int GetCap()
+	{
+		return Cap;
 	}
 	
 	// Setters

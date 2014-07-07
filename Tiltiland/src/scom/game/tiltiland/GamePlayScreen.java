@@ -1,6 +1,8 @@
 package scom.game.tiltiland;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import scom.game.tiltiland.AnimalHandler.creatures;
 
@@ -8,6 +10,7 @@ import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Input.TouchEvent;
+
 import android.graphics.Canvas;
 import android.graphics.Rect;
 
@@ -30,7 +33,7 @@ public class GamePlayScreen extends Screen
 		zoo.SetScore(0);
 		midPoint =  384;
 		state = GameState.Ready;
-		if(Settings.MusicEnabled || Settings.SFXEnabled)
+		if(Settings.MusicEnabled)
 		{
 			mute = false;
 		}
@@ -38,6 +41,7 @@ public class GamePlayScreen extends Screen
 		{
 			mute = true;
 		}
+		CloudCover();
 	}
 	
 	Ad ad; // Ad instance
@@ -49,6 +53,9 @@ public class GamePlayScreen extends Screen
 	boolean replayPush = false;
 	boolean mutePush = false;
 	boolean mute;
+	
+	// List for Clouds
+    private List<Cloud> Clouds = new ArrayList<Cloud>();
 	
 	// Objects game has
 	Island island; 
@@ -244,7 +251,6 @@ public class GamePlayScreen extends Screen
 					mutePush = !mutePush;
 					Settings.MusicEnabled = !Settings.MusicEnabled;
 					Assets.playMusic();
-					Settings.SFXEnabled = !Settings.SFXEnabled;
 					mute = !mute;
 				}
 			}
@@ -373,8 +379,8 @@ public class GamePlayScreen extends Screen
     private void DrawWorld()
     {
     	g.drawPixmap(Assets.layers, 0, 0, 0, 0, 768, 1024); // Background
-    	//draw canvas in here 
-    	canvas.drawBitmap(Assets.island.getBitmap() , island.XPos, island.YPos, null);
+    	ManageClouds();
+    	canvas.drawBitmap(Assets.island.getBitmap() , island.XPos, island.YPos, null); // Island on its own canvas
     	g.drawPixmap(Assets.layers, 0, 0, 768, 0, 768, 1024); // ForeWater
     }
     
@@ -510,17 +516,25 @@ public class GamePlayScreen extends Screen
 
     private void DrawStats()
     {
-    	g.drawPixmap(Assets.stats, 128, 640, 0, 0, 478, 163);
-    	Elephants = new Font(game, zoo.Census[0][0] + " : " + zoo.Census[0][1], 290, 668, 0.31f);
-    	Giraffe = new Font(game, zoo.Census[1][0] + " : " + zoo.Census[1][1], 290, 696, 0.31f);
-    	Tiger = new Font(game, zoo.Census[2][0] + " : " + zoo.Census[2][1], 290, 724, 0.31f);
-    	Zebra = new Font(game, zoo.Census[3][0] + " : " + zoo.Census[3][1], 290, 752, 0.31f);
-    	Snake = new Font(game, zoo.Census[4][0] + " : " + zoo.Census[4][1], 290, 781, 0.31f);
-    	Gorilla = new Font(game, zoo.Census[5][0] + " : " + zoo.Census[5][1], 573, 668, 0.31f);
-    	Penguin = new Font(game, zoo.Census[6][0] + " : " + zoo.Census[6][1], 573, 696, 0.31f);
-    	Bear = new Font(game, zoo.Census[7][0] + " : " + zoo.Census[7][1], 573, 724, 0.31f);
-    	Sheep = new Font(game, zoo.Census[8][0] + " : " + zoo.Census[8][1], 573, 752, 0.31f);
-    	Kangaroo = new Font(game, zoo.Census[9][0] + " : " + zoo.Census[9][1], 573, 781, 0.31f);
+    	if(zoo.Pen.size() < zoo.GetCap())
+    	{
+    		g.drawPixmap(Assets.messages, 224, 512, 0, 0, 320, 64);
+    	}
+    	else
+    	{
+    		g.drawPixmap(Assets.messages, 224, 512, 0, 64, 320, 64);
+    	}
+    	g.drawPixmap(Assets.stats, 64, 640, 0, 0, 606, 163);
+    	Elephants = new Font(game, zoo.Census[0][0] + " : " + zoo.Census[0][1], 256, 668, 0.31f);
+    	Giraffe = new Font(game, zoo.Census[1][0] + " : " + zoo.Census[1][1], 256, 696, 0.31f);
+    	Tiger = new Font(game, zoo.Census[2][0] + " : " + zoo.Census[2][1], 256, 724, 0.31f);
+    	Zebra = new Font(game, zoo.Census[3][0] + " : " + zoo.Census[3][1], 256, 752, 0.31f);
+    	Snake = new Font(game, zoo.Census[4][0] + " : " + zoo.Census[4][1], 256, 781, 0.31f);
+    	Gorilla = new Font(game, zoo.Census[5][0] + " : " + zoo.Census[5][1], 640, 668, 0.31f);
+    	Penguin = new Font(game, zoo.Census[6][0] + " : " + zoo.Census[6][1], 640, 696, 0.31f);
+    	Bear = new Font(game, zoo.Census[7][0] + " : " + zoo.Census[7][1], 640, 724, 0.31f);
+    	Sheep = new Font(game, zoo.Census[8][0] + " : " + zoo.Census[8][1], 640, 752, 0.31f);
+    	Kangaroo = new Font(game, zoo.Census[9][0] + " : " + zoo.Census[9][1], 640, 781, 0.31f);
     }
     
     private void MoveAnimals()
@@ -528,6 +542,52 @@ public class GamePlayScreen extends Screen
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
     		zoo.Pen.get(i).Move(zoo, island.rotation);
+    	}
+    }
+    
+    private void CloudCover()
+    {
+    	for(int i = 0 ; i < 7 ; ++i)
+    	{
+    		Random generator = new Random();
+    		int y = generator.nextInt(192 - (-64)) + (-64);
+    		Random generator2 = new Random();
+    		int x = generator2.nextInt(768 - (-128)) + (-128);
+    		Random generator3 = new Random();
+    		int s = generator3.nextInt(3 - 1) + 1;
+    		Clouds.add(new Cloud(x, y, s));
+    	}
+    }
+    
+    private void ManageClouds()
+    {
+    	if(Clouds.size() < 10) // Makes new Clouds when there is not enough
+    	{
+    		Random generator = new Random();
+    		int y = generator.nextInt(192 - (-64)) + (-64);
+    		Random generator2 = new Random();
+    		int x = generator2.nextInt(896 - 768) + 768;
+    		Random generator3 = new Random();
+    		int s = generator3.nextInt(3 - 1) + 1;
+    		Clouds.add(new Cloud(x, y, s));
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Removes Clouds when off screen
+    	{
+    		if(Clouds.get(i).GetXPos() <= -256)
+    		{
+    			Clouds.remove(i);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Moves In X
+    	{
+    		Clouds.get(i).SetXPos(Clouds.get(i).GetXPos() - Clouds.get(i).GetSpeed());
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Draws Clouds
+    	{
+    		g.drawPixmap(Assets.cloud, Clouds.get(i).GetXPos(), Clouds.get(i).GetYPos(), 0, 0, 256, 128);
     	}
     }
     

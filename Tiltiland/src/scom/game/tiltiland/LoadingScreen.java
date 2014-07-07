@@ -39,6 +39,10 @@ public class LoadingScreen extends Screen
 		{
 			Assets.stats = g.newPixmap("stats.png", PixmapFormat.ARGB4444);
 		}
+		if(Assets.messages == null)
+		{
+			Assets.messages = g.newPixmap("messages.png", PixmapFormat.ARGB4444);
+		}
 		if(Assets.buttons == null)
 		{
 			Assets.buttons = g.newPixmap("buttons.png", PixmapFormat.ARGB4444);
@@ -50,6 +54,10 @@ public class LoadingScreen extends Screen
 		if(Assets.island == null)
 		{
 			Assets.island = g.newPixmap("island.png", PixmapFormat.ARGB4444);
+		}
+		if(Assets.cloud == null)
+		{
+			Assets.cloud = g.newPixmap("cloud.png", PixmapFormat.ARGB4444);
 		}
 		if(Assets.screens == null)
 		{
