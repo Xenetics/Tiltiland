@@ -1,10 +1,7 @@
 package scom.game.tiltiland;
 
-import java.util.List;
-
 import android.graphics.Bitmap;
 import android.os.PowerManager;
-
 import com.badlogic.androidgames.framework.Pixmap;
 import com.badlogic.androidgames.framework.Sound;
 import com.badlogic.androidgames.framework.Music;
@@ -23,8 +20,6 @@ public class Assets
 	
 	public static Pixmap island;
 	public static Pixmap cloud;
-	public static List<Cloud> Clouds;
-	public static CloudManager cloudManager;
 	
 	// Instruction screen
 	public static Pixmap screens;

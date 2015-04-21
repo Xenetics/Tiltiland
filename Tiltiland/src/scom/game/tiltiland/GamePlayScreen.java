@@ -3,7 +3,9 @@ package scom.game.tiltiland;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import scom.game.tiltiland.AnimalHandler.creatures;
+
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Graphics;
 import com.badlogic.androidgames.framework.Screen;
@@ -39,6 +41,7 @@ public class GamePlayScreen extends Screen
 		{
 			mute = true;
 		}
+		CloudCover();
 	}
 	
 	Ad ad; // Ad instance
@@ -50,6 +53,9 @@ public class GamePlayScreen extends Screen
 	boolean replayPush = false;
 	boolean mutePush = false;
 	boolean mute;
+	
+	// List for Clouds
+    private List<Cloud> Clouds = new ArrayList<Cloud>();
 	
 	// Objects game has
 	Island island; 
@@ -373,7 +379,7 @@ public class GamePlayScreen extends Screen
     private void DrawWorld()
     {
     	g.drawPixmap(Assets.layers, 0, 0, 0, 0, 768, 1024); // Background
-    	Assets.cloudManager.ManageClouds();
+    	ManageClouds();
     	canvas.drawBitmap(Assets.island.getBitmap() , island.XPos, island.YPos, null); // Island on its own canvas
     	g.drawPixmap(Assets.layers, 0, 0, 768, 0, 768, 1024); // ForeWater
     }
@@ -507,15 +513,9 @@ public class GamePlayScreen extends Screen
 	    	}
     	}
     }
-    
-   // private int MeterSize = 13;
-    //private int ArrowX = 205;
-    
+
     private void DrawStats()
     {
-    	//g.drawPixmap(Assets.messages, 192, 544, 0, 128, MeterSize, 21); // Draw Meter
-    	//g.drawPixmap(Assets.messages, ArrowX, 512, 0, 149, 31, 21); // Draw Arrow
-    	
     	if(zoo.Pen.size() < zoo.GetCap())
     	{
     		g.drawPixmap(Assets.messages, 224, 512, 0, 0, 320, 64);
@@ -542,6 +542,52 @@ public class GamePlayScreen extends Screen
     	for(int i = 0 ; i < zoo.Pen.size() ; ++i)
     	{
     		zoo.Pen.get(i).Move(zoo, island.rotation);
+    	}
+    }
+    
+    private void CloudCover()
+    {
+    	for(int i = 0 ; i < 7 ; ++i)
+    	{
+    		Random generator = new Random();
+    		int y = generator.nextInt(192 - (-64)) + (-64);
+    		Random generator2 = new Random();
+    		int x = generator2.nextInt(768 - (-128)) + (-128);
+    		Random generator3 = new Random();
+    		int s = generator3.nextInt(3 - 1) + 1;
+    		Clouds.add(new Cloud(x, y, s));
+    	}
+    }
+    
+    private void ManageClouds()
+    {
+    	if(Clouds.size() < 10) // Makes new Clouds when there is not enough
+    	{
+    		Random generator = new Random();
+    		int y = generator.nextInt(192 - (-64)) + (-64);
+    		Random generator2 = new Random();
+    		int x = generator2.nextInt(896 - 768) + 768;
+    		Random generator3 = new Random();
+    		int s = generator3.nextInt(3 - 1) + 1;
+    		Clouds.add(new Cloud(x, y, s));
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Removes Clouds when off screen
+    	{
+    		if(Clouds.get(i).GetXPos() <= -256)
+    		{
+    			Clouds.remove(i);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Moves In X
+    	{
+    		Clouds.get(i).SetXPos(Clouds.get(i).GetXPos() - Clouds.get(i).GetSpeed());
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Draws Clouds
+    	{
+    		g.drawPixmap(Assets.cloud, Clouds.get(i).GetXPos(), Clouds.get(i).GetYPos(), 0, 0, 256, 128);
     	}
     }
     

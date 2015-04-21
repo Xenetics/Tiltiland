@@ -17,6 +17,7 @@ public class HighscoreScreen extends Screen
 	public HighscoreScreen(Game game) 
 	{
 		super(game);
+		CloudCover();
 	}
 	
 	Context context;
@@ -30,7 +31,10 @@ public class HighscoreScreen extends Screen
 	
 	// Booleans for button presses
 	boolean backPush = false;
-
+	
+	// List for Clouds
+    private List<Cloud> Clouds = new ArrayList<Cloud>();
+	
 	public void update(float deltaTime)
 	{
 		Assets.playMusic(); // play music if its not playing 
@@ -79,7 +83,7 @@ public class HighscoreScreen extends Screen
     public void present(float deltaTime)
     {
     	g.drawPixmap(Assets.layers, 0, 0, 0, 0, 768, 1024); // Background
-    	Assets.cloudManager.ManageClouds();
+    	ManageClouds();
     	g.drawPixmap(Assets.island, 133, 384);
     	g.drawPixmap(Assets.layers, 0, 0, 768, 0, 768, 1024); // ForeWater;
     	g.drawPixmap(Assets.title, 0, 0, 1536, 0, 768, 320);
@@ -114,6 +118,52 @@ public class HighscoreScreen extends Screen
     public void dispose()
     {
     	
+    }
+    
+    private void CloudCover()
+    {
+    	for(int i = 0 ; i < 7 ; ++i)
+    	{
+    		Random generator = new Random();
+    		int y = generator.nextInt(192 - (-64)) + (-64);
+    		Random generator2 = new Random();
+    		int x = generator2.nextInt(768 - (-128)) + (-128);
+    		Random generator3 = new Random();
+    		int s = generator3.nextInt(3 - 1) + 1;
+    		Clouds.add(new Cloud(x, y, s));
+    	}
+    }
+    
+    private void ManageClouds()
+    {
+    	if(Clouds.size() < 10) // Makes new Clouds when there is not enough
+    	{
+    		Random generator = new Random();
+    		int y = generator.nextInt(192 - (-64)) + (-64);
+    		Random generator2 = new Random();
+    		int x = generator2.nextInt(896 - 768) + 768;
+    		Random generator3 = new Random();
+    		int s = generator3.nextInt(3 - 1) + 1;
+    		Clouds.add(new Cloud(x, y, s));
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Removes Clouds when off screen
+    	{
+    		if(Clouds.get(i).GetXPos() <= -256)
+    		{
+    			Clouds.remove(i);
+    		}
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Moves In X
+    	{
+    		Clouds.get(i).SetXPos(Clouds.get(i).GetXPos() - Clouds.get(i).GetSpeed());
+    	}
+    	
+    	for(int i = 0 ; i < Clouds.size() ; ++i) // Draws Clouds
+    	{
+    		g.drawPixmap(Assets.cloud, Clouds.get(i).GetXPos(), Clouds.get(i).GetYPos(), 0, 0, 256, 128);
+    	}
     }
     
     private boolean inBounds(TouchEvent event, int x, int y, int width, int height) 

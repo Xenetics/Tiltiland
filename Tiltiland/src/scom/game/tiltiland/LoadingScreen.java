@@ -1,7 +1,5 @@
 package scom.game.tiltiland;
 
-import java.util.ArrayList;
-
 import com.badlogic.androidgames.framework.Game;
 import com.badlogic.androidgames.framework.Screen;
 import com.badlogic.androidgames.framework.Graphics;
@@ -11,11 +9,9 @@ import android.content.Context;
 
 public class LoadingScreen extends Screen 
 {
-	Game gamepass;
 	public LoadingScreen(Game game, Context ctx)
 	{
 		super(game);
-		gamepass = game;
 	}
 	
 	public int splashCounter = 0;
@@ -66,11 +62,6 @@ public class LoadingScreen extends Screen
 		if(Assets.screens == null)
 		{
 			Assets.screens = g.newPixmap("screens.png", PixmapFormat.ARGB4444);
-		}
-		if(Assets.cloudManager == null)
-		{
-			Assets.Clouds = new ArrayList<Cloud>();
-			Assets.cloudManager = new CloudManager(gamepass);
 		}
 		
 		// loading sound assets
